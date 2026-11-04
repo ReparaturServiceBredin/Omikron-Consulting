@@ -4,7 +4,7 @@ name: Windows-EXE bauen und veröffentlichen
 # wenn es zur Versionsnummer in rsb/__init__.py noch keine gibt – sonst wird nur getestet und gebaut.
 on:
   push:
-    branches: [main]
+    branches: [main, claude/nice-noether-j6v2s5]
     paths:
       - "rsb/**"
       - "start_exe.py"
@@ -12,6 +12,7 @@ on:
       - "firma.toml"
       - "requirements.txt"
       - "bauen/**"
+      - "verteilung/**"
       - "docs/AENDERUNGEN.md"
       - ".github/workflows/release.yml"
   workflow_dispatch:
@@ -88,12 +89,46 @@ jobs:
           if (-not $ok -or $seite -ne 200) { Write-Error "EXE startet nicht korrekt"; exit 1 }
           Write-Host "EXE läuft: Version ${{ steps.v.outputs.version }}, Startseite $seite"
 
+      - name: Installations-Skript testen (SharePoint-Paket)
+        shell: pwsh
+        run: |
+          $env:RSB_DATEN = "$env:RUNNER_TEMP\installtest"
+          $env:RSB_KEIN_BROWSER = "1"
+          $env:RSB_KEIN_UPDATE = "1"
+          $env:RSB_KEIN_SYMBOL = "1"
+          $env:RSB_PORT = "5078"
+          Copy-Item "dist\${{ steps.v.outputs.name }}.exe" verteilung\sharepoint\
+          powershell -NoProfile -ExecutionPolicy Bypass -File verteilung\sharepoint\installieren.ps1
+          if ($LASTEXITCODE -ne 0) { Write-Error "Installations-Skript fehlgeschlagen"; exit 1 }
+          $exe = "$env:LOCALAPPDATA\Programs\${{ steps.v.outputs.name }}\${{ steps.v.outputs.name }}.exe"
+          $lnk = Join-Path ([Environment]::GetFolderPath('Desktop')) "Omikron Buchhaltung.lnk"
+          if (-not (Test-Path $exe)) { Write-Error "EXE nicht installiert"; exit 1 }
+          if (-not (Test-Path $lnk)) { Write-Error "Desktop-Verknüpfung fehlt"; exit 1 }
+          $ok = $false
+          for ($i = 0; $i -lt 40; $i++) {
+            Start-Sleep -Seconds 2
+            try { Invoke-RestMethod -Uri "http://127.0.0.1:5078/version" -TimeoutSec 3 | Out-Null; $ok = $true; break } catch { }
+          }
+          Get-Process -Name "${{ steps.v.outputs.name }}" -ErrorAction SilentlyContinue | Stop-Process -Force
+          if (-not $ok) { Write-Error "Installiertes Programm startet nicht"; exit 1 }
+          Write-Host "Installation per Skript in Ordnung"
+
       - name: Prüfsumme
         shell: pwsh
         run: |
           $h = (Get-FileHash dist\${{ steps.v.outputs.name }}.exe -Algorithm SHA256).Hash.ToLower()
           "$h  ${{ steps.v.outputs.name }}.exe" | Out-File -Encoding ascii -NoNewline dist\${{ steps.v.outputs.name }}.exe.sha256
           Get-Content dist\${{ steps.v.outputs.name }}.exe.sha256
+
+      - name: SharePoint-Paket packen
+        shell: pwsh
+        run: |
+          $paket = "dist\paket\Omikron Buchhaltung"
+          New-Item -ItemType Directory -Force $paket | Out-Null
+          Copy-Item verteilung\sharepoint\Installieren.cmd, verteilung\sharepoint\Deinstallieren.cmd, `
+            verteilung\sharepoint\installieren.ps1, verteilung\sharepoint\deinstallieren.ps1, `
+            verteilung\sharepoint\Anleitung.pdf, "dist\${{ steps.v.outputs.name }}.exe" $paket
+          Compress-Archive -Path $paket -DestinationPath "dist\${{ steps.v.outputs.name }}-SharePoint.zip" -Force
 
       - name: EXE als Artefakt ablegen
         uses: actions/upload-artifact@v4
@@ -102,6 +137,7 @@ jobs:
           path: |
             dist/${{ steps.v.outputs.name }}.exe
             dist/${{ steps.v.outputs.name }}.exe.sha256
+            dist/${{ steps.v.outputs.name }}-SharePoint.zip
 
       - name: Veröffentlichen (nur bei neuer Versionsnummer)
         if: steps.v.outputs.neu == 'ja'
@@ -112,4 +148,5 @@ jobs:
           V="${{ steps.v.outputs.version }}"
           python bauen/release_notes.py "$V"
           gh release create "v$V" dist/${{ steps.v.outputs.name }}.exe dist/${{ steps.v.outputs.name }}.exe.sha256 \
+            "dist/${{ steps.v.outputs.name }}-SharePoint.zip" \
             --title "Version $V" --notes-file release_notes.md --target "${{ github.sha }}" --latest

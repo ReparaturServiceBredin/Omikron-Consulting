@@ -251,12 +251,50 @@ So tauschen Sie das Logo aus:
 - Zusätzlich kann Azure den App Service sichern (**Sicherungen** im App Service; Umfang je nach Tarif).
 - Wiederherstellen: *Einstellungen → Backup → Sicherung wiederherstellen* (ZIP hochladen).
 
-## 8. Windows-Programm (optional)
+## 8. Windows-Programm über SharePoint verteilen (ohne Azure)
 
-Wer lieber lokal ohne Azure arbeitet: unter *Releases* dieses Repositorys `Omikron-Buchhaltung.exe` herunterladen
-und starten. Die Daten liegen dann nur auf diesem PC (`%LOCALAPPDATA%\Omikron-Buchhaltung\Daten`) – das ist eine
-getrennte Installation, sie teilt keine Daten mit der Azure-Version. Automatische Updates der EXE funktionieren nur,
-wenn dieses Repository öffentlich ist.
+Wer ohne Azure arbeiten möchte, installiert das Programm auf jedem PC. Verteilt wird es über SharePoint, Updates
+holt sich das Programm danach selbst aus diesem GitHub-Repository.
+
+**Ordner für SharePoint:** Jede Veröffentlichung enthält unter *Releases* die Datei
+`Omikron-Buchhaltung-SharePoint.zip`. Entpacken und den Ordner **„Omikron Buchhaltung“** in eine
+SharePoint-Dokumentbibliothek des Kunden hochladen (z. B. *Dokumente → Software*). Inhalt:
+
+| Datei | Zweck |
+|---|---|
+| `Installieren.cmd` | Doppelklick: lädt die neueste Version von GitHub (Prüfsumme wird kontrolliert), installiert nach `%LOCALAPPDATA%\Programs\Omikron-Buchhaltung`, legt Verknüpfungen auf Desktop und im Startmenü an, startet das Programm. Ohne Internet wird die EXE aus dem Ordner genommen. Keine Administratorrechte nötig. |
+| `Omikron-Buchhaltung.exe` | Programm (Reserve für die Installation ohne Internet) |
+| `Deinstallieren.cmd` | entfernt Programm und Verknüpfungen, Daten bleiben erhalten |
+| `installieren.ps1`, `deinstallieren.ps1` | die eigentlichen Skripte (werden von den .cmd-Dateien aufgerufen) |
+| `Anleitung.pdf` | Anleitung für den Kunden (Installation, Updates, Datensicherung) |
+
+Die Quelldateien liegen im Repository unter `verteilung/sharepoint/` (Anleitung: `anleitung.html`, daraus wird
+`Anleitung.pdf` gedruckt).
+
+**Wichtig:**
+- Das Programm wird **nicht** direkt aus SharePoint/OneDrive gestartet, sondern lokal installiert. Sonst könnte es
+  sich nicht selbst aktualisieren, und die Synchronisierung könnte die Datenbank beschädigen.
+- Jeder PC hat einen **eigenen Datenbestand** (`%LOCALAPPDATA%\Omikron-Buchhaltung\Daten`). Für gemeinsame Daten
+  im Team ist die Azure-Variante (Abschnitte 2–5) nötig.
+- Empfehlung für die Datensicherung: *Einstellungen → Backup → Zusätzlicher Backup-Ordner* auf einen mit
+  SharePoint synchronisierten Ordner setzen.
+
+### Neue Version für den Kunden veröffentlichen
+
+1. Änderungen am Programm vornehmen (lassen).
+2. In `rsb/__init__.py` die `VERSION_NUMMER` erhöhen (z. B. `1.1.2` → `1.2.0`) und in `docs/AENDERUNGEN.md` einen
+   Abschnitt `## 1.2.0 – Datum` mit den Neuerungen ergänzen (erscheint beim Kunden als Update-Hinweis).
+3. Auf GitHub hochladen (Push auf den Standard-Branch). GitHub testet automatisch, baut die EXE, prüft die
+   Installation und veröffentlicht unter *Releases*: EXE, Prüfsumme und das SharePoint-Paket. Ohne neue
+   Versionsnummer wird nur getestet, nichts veröffentlicht. Manuell starten: *Actions → „Windows-EXE bauen und
+   veröffentlichen“ → Run workflow*.
+4. Beim Kunden: Das Programm findet die neue Version innerhalb von 6 Stunden bzw. beim nächsten Start und
+   installiert sie beim nächsten Start selbst (mit Sicherung vorher). Der SharePoint-Ordner muss **nicht** ersetzt
+   werden – `Installieren.cmd` lädt ohnehin immer die neueste Version.
+
+Voraussetzung: Dieses Repository bleibt **öffentlich**. Die EXE fragt die Versionen ohne Anmeldung bei GitHub ab;
+bei einem privaten Repository findet sie keine Updates mehr. Im Repository stehen keine Zugangsdaten und keine
+Kundendaten.
 
 ## 9. Wenn etwas nicht klappt
 

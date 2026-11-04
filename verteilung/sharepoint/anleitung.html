@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<title>Omikron Buchhaltung – Installation und Updates</title>
+<style>
+  @page { size: A4; margin: 18mm 18mm 20mm; }
+  :root { --orange: #EE7023; --text: #1d1d1f; --grau: #5d6670; --rand: #e3e6ea; --hell: #fdf3ec; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: var(--text); font-size: 10.5pt; line-height: 1.5; margin: 0; }
+  header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--orange);
+    padding-bottom: 10px; margin-bottom: 18px; }
+  header img { height: 46px; }
+  header .titel { text-align: right; }
+  h1 { font-size: 19pt; margin: 0; }
+  .unter { color: var(--grau); margin: 2px 0 0; }
+  h2 { font-size: 13pt; margin: 22px 0 6px; color: var(--orange); break-after: avoid; }
+  ol, ul { padding-left: 20px; margin: 6px 0; }
+  li { margin: 3px 0; }
+  code, .datei { font-family: Consolas, "Courier New", monospace; font-size: 9.5pt; background: #f3f4f6; padding: 1px 5px;
+    border-radius: 4px; }
+  .kasten { background: var(--hell); border-left: 4px solid var(--orange); padding: 9px 12px; margin: 10px 0;
+    border-radius: 0 6px 6px 0; break-inside: avoid; }
+  .kasten.grau { background: #f4f6f8; border-color: #9aa3ad; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  td, th { border-bottom: 1px solid var(--rand); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f4f6f8; font-weight: 600; }
+  footer { margin-top: 26px; color: var(--grau); font-size: 9pt; border-top: 1px solid var(--rand); padding-top: 8px; }
+</style></head>
+<body>
+<header>
+  <img src="logo.png" alt="Omikron Consulting">
+  <div class="titel"><h1>Omikron Buchhaltung</h1><p class="unter">Installation, Updates und Datensicherung</p></div>
+</header>
+
+<h2>1. Was ist in diesem Ordner?</h2>
+<table>
+  <tr><th style="width:38%">Datei</th><th>Wofür</th></tr>
+  <tr><td><span class="datei">Installieren.cmd</span></td><td><b>Doppelklick zum Installieren</b> (und zum manuellen Aktualisieren). Holt die neueste Version, legt Verknüpfungen an und startet das Programm.</td></tr>
+  <tr><td><span class="datei">Omikron-Buchhaltung.exe</span></td><td>Das Programm selbst – wird nur verwendet, wenn beim Installieren kein Internet da ist.</td></tr>
+  <tr><td><span class="datei">Deinstallieren.cmd</span></td><td>Entfernt das Programm. Ihre Daten bleiben erhalten.</td></tr>
+  <tr><td><span class="datei">installieren.ps1</span>, <span class="datei">deinstallieren.ps1</span></td><td>Hilfsdateien der beiden Skripte – bitte im selben Ordner lassen.</td></tr>
+  <tr><td><span class="datei">Anleitung.pdf</span></td><td>Diese Anleitung.</td></tr>
+</table>
+
+<h2>2. Installieren (einmal je PC, ca. 2 Minuten)</h2>
+<ol>
+  <li>In SharePoint diesen Ordner öffnen und oben auf <b>„Herunterladen“</b> klicken. Die ZIP-Datei im Ordner
+      <i>Downloads</i> mit Rechtsklick → <b>„Alle extrahieren …“</b> entpacken.<br>
+      <span class="unter">Alternativ: Ordner mit <b>„Synchronisieren“</b> bzw. <b>„Verknüpfung zu „Meine Dateien“ hinzufügen“</b> auf den PC holen.</span></li>
+  <li>Im entpackten Ordner auf <b>Installieren.cmd</b> doppelklicken.</li>
+  <li>Falls Windows <b>„Der Computer wurde durch Windows geschützt“</b> meldet: auf <b>Weitere Informationen</b> →
+      <b>Trotzdem ausführen</b> klicken. (Das Programm ist nicht kostenpflichtig signiert; die Warnung erscheint nur einmal.)</li>
+  <li>Ein schwarzes Fenster zeigt den Fortschritt. Danach startet die Buchhaltung als eigenes Fenster, und auf dem
+      Desktop sowie im Startmenü gibt es die Verknüpfung <b>„Omikron Buchhaltung“</b>.</li>
+</ol>
+<div class="kasten grau">Keine Administratorrechte nötig. Das Programm wird nur für den angemeldeten Windows-Benutzer installiert
+  (<code>%LOCALAPPDATA%\Programs\Omikron-Buchhaltung</code>).</div>
+
+<h2>3. Erster Start</h2>
+<ol>
+  <li><b>Einstellungen → Firmendaten:</b> Anschrift, Steuernummer bzw. USt-IdNr. und Bankverbindung eintragen –
+      diese Angaben stehen auf jeder Rechnung.</li>
+  <li><b>Einstellungen → Rechnung &amp; Steuer:</b> Besteuerung und MwSt.-Satz prüfen.</li>
+  <li><b>Arbeitskalender → Einstellungen:</b> Stundensatz, Kilometersatz und Anfahrtspauschale eintragen.</li>
+  <li>Optional: <b>Einstellungen → Anmeldung &amp; Benutzer</b> – Passwortschutz einschalten.</li>
+</ol>
+<p>Das Programm läuft im Hintergrund weiter (Symbol mit den drei Waben unten rechts neben der Uhr, ggf. unter dem
+  Pfeil <b>^</b>). Klick darauf öffnet das Fenster, Rechtsklick → <b>Beenden</b> schließt das Programm ganz.</p>
+
+<h2>4. Updates – kommen automatisch</h2>
+<ul>
+  <li>Das Programm prüft beim Start und alle 6 Stunden, ob es eine neue Version gibt.</li>
+  <li>Gibt es eine, wird sie <b>beim nächsten Start automatisch installiert</b> – vorher legt das Programm eine
+      Sicherung an. Oder sofort über den Hinweis <b>„Jetzt aktualisieren“</b> in der Oberfläche.</li>
+  <li>Jede Datei wird beim Herunterladen mit einer Prüfsumme kontrolliert. Ihre Daten bleiben bei jedem Update erhalten.</li>
+  <li>Was neu ist: Klick auf die Versionsnummer unten links im Programm.</li>
+</ul>
+<div class="kasten">Den Ordner in SharePoint müssen Sie für Updates <b>nicht</b> erneuern. Er wird nur für neue PCs gebraucht –
+  und auch dann lädt <b>Installieren.cmd</b> immer die neueste Version.</div>
+
+<h2>5. Ihre Daten und die Datensicherung</h2>
+<ul>
+  <li>Die Daten (Datenbank, Rechnungs-PDFs, Belege, Fotos) liegen auf <b>diesem PC</b> in
+      <code>%LOCALAPPDATA%\Omikron-Buchhaltung\Daten</code>. Öffnen: Rechtsklick auf das Symbol neben der Uhr →
+      <b>Daten-Ordner öffnen</b>.</li>
+  <li>Das Programm erstellt täglich selbst eine Sicherung. <b>Empfehlung:</b> unter <b>Einstellungen → Backup → Zusätzlicher Backup-Ordner</b> einen mit OneDrive/SharePoint synchronisierten Ordner eintragen
+      (z. B. eine Dokumentbibliothek „Sicherungen Buchhaltung“). So liegt immer eine Kopie im Microsoft 365.</li>
+  <li>Wiederherstellen: <b>Einstellungen → Backup → Sicherung wiederherstellen</b> (ZIP auswählen oder hochladen).</li>
+</ul>
+<div class="kasten"><b>Wichtig bei mehreren Arbeitsplätzen:</b> Jeder PC hat seinen <b>eigenen</b> Datenbestand.
+  Soll das ganze Team mit denselben Daten arbeiten, ist die <b>Browser-Version</b> (Betrieb in Microsoft Azure,
+  Anmeldung mit dem Microsoft-Konto, Aufruf direkt aus SharePoint) die richtige Lösung – bitte dafür bei uns melden.
+  Das Programm bitte nicht direkt aus dem SharePoint-/OneDrive-Ordner starten und den Datenordner nicht in
+  OneDrive legen: Die Synchronisierung kann eine geöffnete Datenbank beschädigen.</div>
+
+<h2>6. Umzug auf einen neuen PC</h2>
+<ol>
+  <li>Alter PC: <b>Einstellungen → Backup → Backup jetzt erstellen</b> und die neueste ZIP-Datei in der Liste darunter herunterladen.</li>
+  <li>Neuer PC: wie in Abschnitt 2 installieren.</li>
+  <li><b>Einstellungen → Backup → Sicherung wiederherstellen</b> und die ZIP-Datei hochladen.</li>
+</ol>
+
+<h2>7. Entfernen</h2>
+<p><b>Deinstallieren.cmd</b> doppelklicken. Programm und Verknüpfungen werden entfernt, die Daten bleiben erhalten
+  (bei einer erneuten Installation sind sie sofort wieder da). Nur wer im Fenster ausdrücklich <code>LOESCHEN</code>
+  eintippt, löscht auch die Daten.</p>
+
+<h2>8. Wenn etwas nicht klappt</h2>
+<table>
+  <tr><th style="width:42%">Problem</th><th>Lösung</th></tr>
+  <tr><td>Doppelklick auf Installieren.cmd tut nichts</td><td>Ordner zuerst entpacken (nicht aus der ZIP-Datei heraus starten).</td></tr>
+  <tr><td>„Windows hat den Computer geschützt“</td><td>Weitere Informationen → Trotzdem ausführen.</td></tr>
+  <tr><td>Virenschutz blockiert die Datei</td><td>Omikron-Buchhaltung.exe im Virenschutz als vertrauenswürdig freigeben.</td></tr>
+  <tr><td>Fenster öffnet sich nicht</td><td>Symbol neben der Uhr anklicken. Meldungen stehen in <code>programm.log</code> im Datenordner.</td></tr>
+  <tr><td>Update wird nicht installiert</td><td>Internetzugang prüfen; notfalls Installieren.cmd erneut ausführen – die Daten bleiben erhalten.</td></tr>
+</table>
+
+<footer>Omikron Consulting · Buchhaltung &amp; Rechnungen · Programm-Updates werden automatisch geladen und geprüft.</footer>
+</body></html>

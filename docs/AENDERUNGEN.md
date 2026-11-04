@@ -13,11 +13,19 @@ Alle Versionen mit Neuerungen, Änderungen und Fehlerbehebungen. Die neueste Ver
 
 | Version | Datum | Schwerpunkt |
 |---|---|---|
+| 1.1.2 | 04.11.2026 | Installationspaket für SharePoint |
 | 1.1.1 | 04.11.2026 | Finanzen: Einnahmen nach Leistungsart, nur berechnete Leistungen |
 | 1.1.0 | 04.11.2026 | Oberfläche anpassen: Bausteine, Spalten, eigene Einträge in Auswahllisten |
 | 1.0.0 | 04.11.2026 | Erste eigene Version für Omikron Consulting |
 
 ---
+
+## 1.1.2 – 04.11.2026
+### Neu
+- **Installationspaket für SharePoint** (`Omikron-Buchhaltung-SharePoint.zip` bei jeder Veröffentlichung):
+  `Installieren.cmd` lädt die neueste Version, installiert ohne Administratorrechte, legt Verknüpfungen auf dem
+  Desktop und im Startmenü an. `Deinstallieren.cmd` entfernt das Programm, die Daten bleiben erhalten.
+  Dazu eine Anleitung als PDF.
 
 ## 1.1.1 – 04.11.2026
 ### Geändert
