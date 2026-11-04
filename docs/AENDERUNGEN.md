@@ -13,10 +13,19 @@ Alle Versionen mit Neuerungen, Änderungen und Fehlerbehebungen. Die neueste Ver
 
 | Version | Datum | Schwerpunkt |
 |---|---|---|
+| 1.1.1 | 04.11.2026 | Finanzen: Einnahmen nach Leistungsart, nur berechnete Leistungen |
 | 1.1.0 | 04.11.2026 | Oberfläche anpassen: Bausteine, Spalten, eigene Einträge in Auswahllisten |
 | 1.0.0 | 04.11.2026 | Erste eigene Version für Omikron Consulting |
 
 ---
+
+## 1.1.1 – 04.11.2026
+### Geändert
+- **Finanzen → Einnahmen:** Statt fester Zeilen (Reparaturen, Artikelverkauf, Leihgebühren, KVA-Gebühren) zeigt
+  die Aufstellung jetzt die **Leistungsarten, die im Zeitraum tatsächlich berechnet wurden** – z. B. Beratung,
+  Schulung, Projekt –, größte zuerst. Maßgeblich ist die Leistungsart der Rechnungsposition, sonst die des Artikels.
+  Artikel ohne Leistungsart zählen als Artikelverkauf, Positionen ohne Leistungsart als „Sonstige Leistungen“.
+  Ohne Umsatz erscheint der Hinweis „Im Zeitraum wurde nichts berechnet.“
 
 ## 1.1.0 – 04.11.2026
 ### Neu

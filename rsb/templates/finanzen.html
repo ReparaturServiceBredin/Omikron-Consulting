@@ -52,11 +52,11 @@
 
   <div class="karte" data-kachel="einnahmen" data-titel="Einnahmen" data-breite="6"><h2>Einnahmen</h2>
     <table class="liste">
-      {% for kat, w in a.k.umsatz_kat.items() %}<tr><td>{{ kat }}</td><td class="zahl"><a href="{{ link('umsatz:' ~ kat) }}">{{ w|euro }}</a></td></tr>{% endfor %}
+      {% for kat, w in a.k.umsatz_kat.items() %}<tr><td>{{ kat }}</td><td class="zahl"><a href="{{ link('umsatz:' ~ kat) }}">{{ w|euro }}</a></td></tr>{% else %}<tr><td colspan="2" class="klein">Im Zeitraum wurde nichts berechnet.</td></tr>{% endfor %}
       <tr class="summe"><td>Umsatz netto {{ '(nach Zahlungseingang)' if p.basis == 'zahlung' else '(nach Rechnungsdatum)' }}</td><td class="zahl"><a href="{{ link('umsatz') }}">{{ a.k.umsatz_netto|euro }}</a></td></tr>
       <tr><td>Zahlungseingänge (Zufluss)</td><td class="zahl"><a href="{{ link('zufluss') }}">{{ a.zufluss|euro }}</a></td></tr>
     </table>
-    <p class="klein">Rechnungen abzüglich Stornos und Gutschriften. Aufteilung nach den Rechnungspositionen.</p></div>
+    <p class="klein">Rechnungen abzüglich Stornos und Gutschriften. Aufteilung nach der Leistungsart der Rechnungspositionen; es erscheinen nur Leistungsarten, die im Zeitraum berechnet wurden.</p></div>
   <div class="karte" data-kachel="ausgaben_tabelle" data-titel="Ausgaben" data-breite="6"><h2>Ausgaben</h2>
     <table class="liste">
       <tr><td>Fixkosten {{ '(anteilig)' if p.fix_modus == 'anteilig' else '(im Fälligkeitsmonat)' }}</td><td class="zahl"><a href="{{ link('fixkosten') }}">{{ a.k.fixkosten|euro }}</a></td><td class="zahl">{{ veraenderung('fixkosten', true) }}</td></tr>
