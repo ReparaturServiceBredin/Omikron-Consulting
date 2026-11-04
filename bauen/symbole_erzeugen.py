@@ -1,9 +1,10 @@
 """Erzeugt Logo und Programmsymbole aus den Angaben in firma.toml.
 
 Aufruf (im Projektordner):   python bauen/symbole_erzeugen.py
-  - ohne eigenes Logo: zeichnet ein schlichtes Platzhalter-Logo (Buchstabe Omikron „ο“ + Firmenname)
-  - mit eigenem Logo:  python bauen/symbole_erzeugen.py pfad/zum/logo.png [pfad/zur/bildmarke.png]
-    (die Bildmarke ist das quadratische Zeichen für EXE-Symbol und Browser-Tab; ohne Angabe wird das Logo verwendet)
+  - mit Logo (Normalfall):  python bauen/symbole_erzeugen.py bauen/logo_quelle.png [pfad/zur/bildmarke.png]
+    Die Bildmarke ist das quadratische Zeichen für EXE-Symbol und Browser-Tab. Ohne Angabe werden drei
+    Waben-Sechsecke in den Farben aus firma.toml → [farben] marke gezeichnet (scharf in jeder Größe).
+  - ohne Logo: zeichnet ein schlichtes Platzhalter-Logo mit dem Firmennamen
 
 Ergebnis (wird vom Programm, der EXE und den PDFs benutzt):
   rsb/static/bilder/logo_standard.png   Logo auf Rechnungen und Anmeldeseite
@@ -29,22 +30,34 @@ def _farbe(hexwert):
     return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)) + (255,)
 
 
-def bildmarke(groesse, farbe):
-    """Quadratisches Zeichen: kräftiger Kreis – der griechische Buchstabe Omikron „ο“."""
+def bildmarke(groesse, farben):
+    """Quadratisches Zeichen für EXE-Symbol und Browser-Tab: drei Waben-Sechsecke in den Markenfarben.
+
+    `farben` = Liste mit 1–3 Farben (oben links, rechts, unten links), aus firma.toml → [farben] marke."""
+    import math
+    farben = [_farbe(f) if isinstance(f, str) else f for f in farben] or [(0, 0, 0, 255)]
+    farben = (farben * 3)[:3]
     f = 4  # überabtasten für glatte Kanten
     s = groesse * f
     img = Image.new("RGBA", (s, s), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    rand = int(s * 0.08)
-    staerke = int(s * 0.17)
-    d.ellipse([rand, rand, s - rand, s - rand], outline=farbe, width=staerke)
+    # Sechsecke mit Spitzen links/rechts; Nachbarn im Wabenraster: (1,5 R | ±0,866 R)
+    r = s / 3.6
+    luecke = r * 0.10
+    breite, hoehe = 3.5 * r, 2 * 0.866 * r + 2 * 0.866 * r
+    x0, y0 = (s - breite) / 2 + r, (s - hoehe) / 2 + 0.866 * r
+    mitten = [(x0, y0), (x0 + 1.5 * r, y0 + 0.866 * r), (x0, y0 + 1.732 * r)]
+    for (cx, cy), farbe in zip(mitten, farben):
+        rr = r - luecke
+        d.polygon([(cx + rr * math.cos(math.radians(w)), cy + rr * math.sin(math.radians(w))) for w in range(0, 360, 60)],
+                  fill=farbe)
     return img.resize((groesse, groesse), Image.LANCZOS)
 
 
 def platzhalter_logo(name, zusatz, farbe, farbe2):
     breite, hoehe = 1800, 520
     img = Image.new("RGBA", (breite, hoehe), (255, 255, 255, 0))
-    zeichen = bildmarke(400, farbe)
+    zeichen = bildmarke(400, [farbe])
     img.alpha_composite(zeichen, (40, 60))
     d = ImageDraw.Draw(img)
     schrift = ImageFont.truetype(str(FONTS / "Montserrat-Bold.ttf"), 150)
@@ -70,14 +83,16 @@ def main():
     cfg = marke.laden()
     farbe = _farbe(cfg["farben"]["primaer"])
     farbe2 = _farbe(cfg["farben"]["sekundaer"])
+    marken_farben = cfg["farben"].get("marke") or [cfg["farben"]["primaer"]]
     if len(sys.argv) > 1:
         logo = Image.open(sys.argv[1]).convert("RGBA")
-        zeichen = quadratisch(Image.open(sys.argv[2] if len(sys.argv) > 2 else sys.argv[1]).convert("RGBA"))
+        zeichen = (quadratisch(Image.open(sys.argv[2]).convert("RGBA")) if len(sys.argv) > 2
+                   else bildmarke(256, marken_farben))
     else:
         firma = cfg["firma"]
         logo = platzhalter_logo(firma.get("firma_name") or cfg["programm"]["name"], firma.get("firma_zusatz", ""),
                                 farbe, farbe2)
-        zeichen = bildmarke(256, farbe)
+        zeichen = bildmarke(256, marken_farben)
     logo.save(BILDER / "logo_standard.png")
     zeichen.resize((128, 128), Image.LANCZOS).save(BILDER / "symbol.png")
     zeichen.resize((32, 32), Image.LANCZOS).save(BILDER / "favicon.png")

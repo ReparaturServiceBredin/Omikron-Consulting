@@ -224,7 +224,13 @@ was in der App gespeichert ist.
 
 ### Logo und Programmsymbol austauschen
 
-Das mitgelieferte Logo ist ein **Platzhalter** (Buchstabe Omikron „ο“ und Firmenname). So ersetzen Sie es:
+Eingebaut ist das Logo von Omikron Consulting (Waben + Schriftzug). Quelle ist `bauen/logo_quelle.png`, freigestellt
+aus einer kleinen Vorlage (299×73 Pixel). Auf Rechnungen ist es daher etwas weich. Liegt eine **größere Logodatei** vor
+(PNG mit transparentem Hintergrund, ab ca. 1500 px Breite, oder SVG als PNG exportiert), sollte sie das Logo
+ersetzen. Die drei Waben im Programmsymbol (EXE, Browser-Tab) werden in den Farben aus `firma.toml` → `[farben] marke`
+gezeichnet und bleiben in jeder Größe scharf.
+
+So tauschen Sie das Logo aus:
 
 - **Nur auf Rechnungen und im Programm:** in der App *Einstellungen → Layout & Dokumente → Logo* hochladen. Fertig.
 - **Auch Anmeldeseite, Browser-Tab und EXE-Symbol:** die Dateien im Ordner `rsb/static/bilder/` ersetzen
@@ -232,8 +238,8 @@ Das mitgelieferte Logo ist ein **Platzhalter** (Buchstabe Omikron „ο“ und F
   - `logo_standard.png` – Logo (breit, transparenter Hintergrund, ca. 1500 px breit)
   - `symbol.png` (128×128), `favicon.png` (32×32), `programm.ico` (Windows-Symbol der EXE)
 
-  Wer Python installiert hat, erzeugt alle Dateien auf einmal aus einem Logo:
-  `python bauen/symbole_erzeugen.py logo.png bildmarke.png`
+  Wer Python installiert hat, legt die neue Datei als `bauen/logo_quelle.png` ab und erzeugt alle Dateien auf einmal:
+  `python bauen/symbole_erzeugen.py bauen/logo_quelle.png`
 
 ---
 

@@ -27,7 +27,7 @@ Alle Versionen mit Neuerungen, Änderungen und Fehlerbehebungen. Die neueste Ver
   (`RSB_ANMELDUNG=entra`), Rollen Inhaber/Mitarbeiter über E-Mail-Liste oder App-Rolle.
 - **Einbetten in SharePoint**: Freigabe nur für die eigene SharePoint-Adresse (`RSB_EINBETTEN_ERLAUBT`),
   Anmeldung im eingebetteten Fenster per Popup, Ausweg „In neuem Tab öffnen“.
-- Logo und Programmsymbol (Platzhalter) für Omikron Consulting, EXE heißt `Omikron-Buchhaltung.exe`.
+- Logo von Omikron Consulting, Programmsymbol mit den drei Waben, EXE heißt `Omikron-Buchhaltung.exe`.
 
 ### Technik
 - `RSB_SQLITE_JOURNAL=DELETE` für den Betrieb der Datenbank auf Netzlaufwerken (Azure App Service `/home`).

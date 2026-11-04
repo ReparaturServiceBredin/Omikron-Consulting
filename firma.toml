@@ -39,9 +39,11 @@ iban = ""
 bic = ""
 
 [farben]
-# Farben für Oberfläche und Dokumente (Hex-Werte). Platzhalter – bitte an das Firmen-Design anpassen.
-primaer = "#1C3F6E"
-sekundaer = "#5D6670"
+# Farben für Rechnungen/Dokumente (Hex-Werte), abgeleitet aus dem Logo (Orange/Gelb/Schwarz)
+primaer = "#EE7023"
+sekundaer = "#3C3C3C"
+# Farben der Waben im Programmsymbol (EXE, Browser-Tab): oben links, rechts, unten links
+marke = ["#F39420", "#F9B81D", "#000000"]
 # Schrift auf Rechnungen: Montserrat, Lato oder OpenSans
 schrift = "Montserrat"
 
