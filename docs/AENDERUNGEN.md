@@ -13,9 +13,26 @@ Alle Versionen mit Neuerungen, Änderungen und Fehlerbehebungen. Die neueste Ver
 
 | Version | Datum | Schwerpunkt |
 |---|---|---|
+| 1.1.0 | 04.11.2026 | Oberfläche anpassen: Bausteine, Spalten, eigene Einträge in Auswahllisten |
 | 1.0.0 | 04.11.2026 | Erste eigene Version für Omikron Consulting |
 
 ---
+
+## 1.1.0 – 04.11.2026
+### Neu
+- **Übersicht und Finanzen anpassen:** Knopf **„Anpassen“** oben rechts. Jeder Baustein lässt sich **ausblenden
+  bzw. einblenden**, **verschieben** (ziehen oder Pfeile ↑ ↓) und in der **Breite** ändern (¼, ⅓, ½, ⅔, ganz).
+  „Fertig“ beendet das Anpassen, „Standard“ stellt die ursprüngliche Anordnung wieder her. Die Einstellung gilt je
+  Benutzer und auf allen Geräten.
+- **Zusätzliche Kacheln auf der Übersicht** zum Einblenden: neue Anfragen, überfällige Rechnungen,
+  Benachrichtigungen, überfällige Leihgeräte, Lager unter Mindestbestand, Schnellzugriff.
+- **Tabellenspalten ein-/ausblenden:** Bei allen Listen mit mehreren Spalten oben rechts **„⚙ Spalten“**.
+- **Eigene Einträge in Auswahllisten:** Wo eine Liste nur Vorschläge enthält (Leistungsart, Kostenart,
+  Fixkosten-Kategorie, Gerätetyp, Anrede, Versanddienst, Vertragskategorie, Nebenkosten im Arbeitskalender), gibt es
+  **„✎ Eigener Eintrag …“**. Neue Leistungsarten, Kostenarten und Fixkosten-Kategorien werden automatisch in die
+  Vorgabenliste übernommen und stehen beim nächsten Mal zur Auswahl.
+- Auswahllisten, die feste Programmlogik steuern (z. B. Status, Zahlart, Besteuerung, Abrechnungsart), bleiben
+  bewusst fest, damit Berechnungen und Buchungen stimmen.
 
 ## 1.0.0 – 04.11.2026
 ### Neu

@@ -34,6 +34,18 @@
   - Textbausteine, Datenschutz-Übersicht, Protokoll, Datenprüfung, Verfahrensdokumentation und Versionsprotokoll
     finden Sie dort unter „Verwaltung & Prüfung“.
 
+
+## Oberfläche anpassen
+
+- **Übersicht, Finanzen:** oben rechts **„Anpassen“**. Dann hat jeder Baustein eine Leiste:
+  ⠿ ziehen oder ↑ ↓ zum Verschieben, Auswahl der **Breite** (¼ bis ganz) und **Ausblenden/Einblenden**.
+  Ausgeblendete Bausteine erscheinen beim Anpassen blass und lassen sich jederzeit wieder einblenden.
+  **„Fertig“** beendet, **„Standard“** setzt die Seite zurück. Gespeichert wird je Benutzer.
+- **Tabellen:** oben rechts **„⚙ Spalten“** – Häkchen entfernen blendet die Spalte aus (die erste Spalte bleibt immer).
+- **Auswahllisten:** Wo die Vorschläge nicht passen, **„✎ Eigener Eintrag …“** wählen und frei eintippen (mit ☰ zurück
+  zur Liste). Neue Leistungsarten, Kostenarten und Fixkosten-Kategorien landen automatisch in der jeweiligen
+  Vorgabenliste (bearbeiten/löschen unter *Einstellungen*, Suchfeld oben).
+
 ## 2. Eine Rechnung schreiben
 
 1. **Rechnungen → + Neue Rechnung** (oder beim Kunden „+ Rechnung für diesen Kunden“).
