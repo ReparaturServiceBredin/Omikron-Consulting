@@ -225,7 +225,7 @@ was in der App gespeichert ist.
 ### Logo und Programmsymbol austauschen
 
 Eingebaut ist das Logo von Omikron Consulting (Waben + Schriftzug). Quelle ist `bauen/logo_quelle.png`, freigestellt
-aus einer kleinen Vorlage (299×73 Pixel). Auf Rechnungen ist es daher etwas weich. Liegt eine **größere Logodatei** vor
+aus einer kleinen Vorlage (225×69 Pixel, hochskaliert und nachgeschärft). Auf Rechnungen ist es daher etwas weich. Liegt eine **größere Logodatei** vor
 (PNG mit transparentem Hintergrund, ab ca. 1500 px Breite, oder SVG als PNG exportiert), sollte sie das Logo
 ersetzen. Die drei Waben im Programmsymbol (EXE, Browser-Tab) werden in den Farben aus `firma.toml` → `[farben] marke`
 gezeichnet und bleiben in jeder Größe scharf.
