@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anmelden – {{ marke_name }}</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<div class="anmeldung">
+  <img src="{{ url_for('static', filename='bilder/logo_standard.png') }}" alt="Logo">
+  <div class="karte">
+    <h1>Anmelden</h1>
+    {% with meldungen = get_flashed_messages(with_categories=true) %}{% for art, text in meldungen %}<div class="meldung {{ art }}">{{ text }}</div>{% endfor %}{% endwith %}
+    <p>Bitte melden Sie sich mit Ihrem Microsoft-Konto an.</p>
+    <p><a class="knopf" id="anmelden" href="{{ login_url }}">Mit Microsoft anmelden</a></p>
+    <div id="eingebettet" hidden>
+      <p class="klein">Die Anmeldung öffnet sich in einem kleinen Fenster. Bitte Popups für diese Seite erlauben.</p>
+      <p id="weiter_box" hidden><button type="button" id="weiter">Weiter</button></p>
+      <p id="status" class="klein"></p>
+      <p class="klein">Klappt es nicht? <a href="{{ weiter }}" target="_blank" rel="noopener">Programm in neuem Tab öffnen</a></p>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var eingebettet = false;
+  try { eingebettet = window.self !== window.top; } catch (e) { eingebettet = true; }
+  if (!eingebettet) return;                       // normales Fenster: direkte Weiterleitung zur Microsoft-Anmeldung
+  document.getElementById('eingebettet').hidden = false;
+  var status = document.getElementById('status');
+  var fenster = null, fertig = false;
+
+  function uebernehmen(code) {
+    if (fertig || !code) return;
+    fertig = true;
+    status.textContent = 'Anmeldung wird übernommen …';
+    var daten = new FormData(); daten.append('code', code);
+    fetch('{{ url_for("main.anmeldung_uebernehmen") }}', {method: 'POST', body: daten, credentials: 'same-origin'})
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        // Manche Browser (Safari, Firefox) verlangen für Cookies im iframe eine Freigabe per Klick
+        if (document.hasStorageAccess && document.requestStorageAccess) {
+          return document.hasStorageAccess().then(function (ok) {
+            if (ok) { location.href = {{ weiter|tojson }}; return; }
+            status.textContent = 'Fast geschafft – bitte auf „Weiter“ klicken.';
+            document.getElementById('weiter_box').hidden = false;
+          });
+        }
+        location.href = {{ weiter|tojson }};
+      })
+      .catch(function () {
+        fertig = false;
+        status.textContent = 'Die Anmeldung konnte im eingebetteten Fenster nicht übernommen werden. Bitte das Programm in einem neuen Tab öffnen.';
+      });
+  }
+
+  document.getElementById('weiter').addEventListener('click', function () {
+    document.requestStorageAccess().catch(function () {}).then(function () { location.href = {{ weiter|tojson }}; });
+  });
+
+  window.addEventListener('message', function (e) {
+    if (e.origin === location.origin && e.data && e.data.art === 'anmeldung') uebernehmen(e.data.code);
+  });
+
+  document.getElementById('anmelden').addEventListener('click', function (e) {
+    e.preventDefault();
+    fertig = false;
+    fenster = window.open({{ popup_url|tojson }}, 'anmeldung', 'width=520,height=680');
+    if (!fenster) { status.textContent = 'Das Anmeldefenster wurde blockiert. Bitte Popups erlauben oder das Programm in einem neuen Tab öffnen.'; return; }
+    status.textContent = 'Bitte im Anmeldefenster anmelden …';
+    var takt = setInterval(function () {
+      if (fertig || fenster.closed) { clearInterval(takt); return; }
+      try {   // nach der Rückkehr ist das Popup wieder auf unserer Adresse und lesbar
+        var feld = fenster.document.getElementById('anmeldecode');
+        if (feld) { var code = feld.value; fenster.close(); clearInterval(takt); uebernehmen(code); }
+      } catch (fehler) { /* noch bei Microsoft – weiter warten */ }
+    }, 500);
+  });
+})();
+</script>
+</body></html>

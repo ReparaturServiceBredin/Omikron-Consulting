@@ -1,0 +1,32 @@
+# Feste Standardwerte NUR für die automatischen Tests (unabhängig von der firma.toml der Installation).
+# Die Tests prüfen Rechenlogik mit diesen Beispielsätzen – alles erfundene Platzhalterwerte.
+[programm]
+name = "Testfirma – Buchhaltung"
+kurzname = "Test-Buchhaltung"
+update_repo = "beispiel/test-buchhaltung"
+
+[firma]
+firma_name = "Musterfirma GmbH"
+
+[farben]
+primaer = "#1C54A3"
+sekundaer = "#5D6670"
+schrift = "Montserrat"
+
+[standardwerte]
+steuer_modus = "kleinunternehmer"
+mwst_satz = 19
+stundensatz_euro = 60.00
+fahrzeit_stundensatz_euro = 60.00
+anfahrt_art = "km"
+km_satz_euro = 0.50
+anfahrt_pauschale_euro = 25.00
+mahngebuehr_1_euro = 3.95
+mahngebuehr_2_euro = 3.95
+kva_pauschalen = "Laptop / PC / All-in-One = 29,00\nSmartphone / Tablet = 19,00\nSonstige Geräte = 29,00"
+garantie_monate = 12
+leistungsarten = "Smartphone, Kaffeemaschine, PC/Laptop, Sonstiges"
+
+[einstellungen]
+imap_host = "imap.example.com"
+gesendet_imap_host = "imap.example.com"

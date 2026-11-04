@@ -1,0 +1,17 @@
+.git
+.github
+.venv
+build
+dist
+Daten
+Testdaten
+tests
+bauen
+**/__pycache__
+*.spec
+*.bat
+*.exe
+release_notes.md
+.env
+.env.*
+*.db

@@ -1,0 +1,26 @@
+# Ihre Daten gehören NICHT ins Code-Repository
+Daten/
+Testdaten/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+dist/
+build/
+version_info.txt
+release_notes.md
+
+# Server-Betrieb
+/.env
+/daten/
+
+# Zugangsdaten und lokale Datenbanken nie hochladen
+.env
+.env.*
+!.env.example
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+node_modules/

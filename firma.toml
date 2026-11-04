@@ -1,0 +1,75 @@
+# =====================================================================================================
+#  ZENTRALE EINSTELLUNGEN DIESER INSTALLATION  (die einzige Stelle für Name, Logo, Farben, Standardwerte)
+# =====================================================================================================
+#
+#  Wichtig: Die Werte unter [firma], [farben], [standardwerte] und [einstellungen] werden beim ERSTEN Start
+#  in die neue, leere Datenbank übernommen. Danach ändern Sie alles bequem in der App unter
+#  „Einstellungen“ (Firmendaten, Layout & Dokumente, Arbeitskalender …). Was dort gespeichert ist, hat Vorrang.
+#
+#  Logo austauschen: siehe EINRICHTUNG.md, Abschnitt „Firmenname, Logo und Standardwerte ändern“.
+#  Leere Werte ("") bedeuten: bitte später in der App eintragen.
+#  Beträge stehen hier in Euro mit Punkt als Dezimalzeichen (z. B. 0.30).
+
+[programm]
+# Anzeigename (Fenstertitel, Browser-Tab, Dateieigenschaften der EXE)
+name = "Omikron Consulting – Buchhaltung"
+# Name ohne Leerzeichen: so heißen die EXE-Datei (Omikron-Buchhaltung.exe) und der Datenordner
+# (%LOCALAPPDATA%\Omikron-Buchhaltung\Daten). Nach der ersten Auslieferung nicht mehr ändern.
+kurzname = "Omikron-Buchhaltung"
+# GitHub-Repository, aus dem die Windows-EXE ihre Updates lädt ("" = keine automatischen Updates).
+# Achtung: Das Repository muss öffentlich sein, sonst findet die EXE keine Updates.
+update_repo = "ReparaturServiceBredin/Omikron-Consulting"
+
+[firma]
+firma_name = "Omikron Consulting"
+firma_zusatz = ""
+inhaber = ""            # Inhaber bzw. Geschäftsführung (erscheint z. B. unter Mahnungen)
+strasse = ""
+plz = ""
+ort = ""
+land = "Deutschland"
+telefon = ""
+email = ""              # wird auch als Absender für E-Mails vorgeschlagen
+web = "www.omikronconsulting.de"
+steuernummer = ""
+ust_idnr = ""
+bank_name = ""
+kontoinhaber = ""
+iban = ""
+bic = ""
+
+[farben]
+# Farben für Oberfläche und Dokumente (Hex-Werte). Platzhalter – bitte an das Firmen-Design anpassen.
+primaer = "#1C3F6E"
+sekundaer = "#5D6670"
+# Schrift auf Rechnungen: Montserrat, Lato oder OpenSans
+schrift = "Montserrat"
+
+[standardwerte]
+# Umsatzsteuer: "regel" (mit MwSt.) oder "kleinunternehmer" (§ 19 UStG, ohne MwSt.)
+steuer_modus = "regel"
+mwst_satz = 19
+zahlungsziel_privat_tage = 14
+zahlungsziel_firma_tage = 30
+zahlungsarten_text = "Zahlbar per Überweisung innerhalb des Zahlungsziels."
+# Sätze für Arbeitskalender / Einsätze (netto). 0 = noch nicht festgelegt, bitte eintragen.
+stundensatz_euro = 0.00
+fahrzeit_stundensatz_euro = 0.00
+anfahrt_art = "km"                # "km" (nach Kilometern) oder "pauschale"
+km_satz_euro = 0.00
+anfahrt_pauschale_euro = 0.00
+# Verpflegungspauschalen (gesetzliche Werte, bei Änderung des Gesetzes anpassen)
+verpflegung_8h_euro = 14.00
+verpflegung_24h_euro = 28.00
+# Mahngebühren (Zahlungserinnerung ist immer kostenlos)
+mahngebuehr_1_euro = 0.00
+mahngebuehr_2_euro = 0.00
+# Pauschale für Kostenvoranschläge je Art, eine Zeile je Eintrag „Art = Betrag“ (brutto)
+kva_pauschalen = "Allgemein = 0,00"
+garantie_monate = 0
+# Auswahlliste „Leistungsart“ bei Artikeln und Aufträgen (mit Komma getrennt)
+leistungsarten = "Beratung, Projekt, Schulung, Sonstiges"
+
+[einstellungen]
+# Für Fortgeschrittene: weitere interne Einstellungen direkt setzen (Namen siehe rsb/db.py, STANDARD_EINSTELLUNGEN).
+# Beispiel:  praefix_rechnung = "RE"

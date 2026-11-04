@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Angemeldet</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<div class="anmeldung"><div class="karte">
+  <h1>Angemeldet</h1>
+  <p>Sie sind angemeldet. Dieses Fenster schließt sich automatisch.</p>
+  <p class="klein"><a href="{{ url_for('main.start') }}">Falls nicht: Programm hier öffnen</a></p>
+  <input type="hidden" id="anmeldecode" value="{{ code }}">
+</div></div>
+<script>
+(function () {
+  var code = document.getElementById('anmeldecode').value;
+  if (window.opener) {
+    try { window.opener.postMessage({art: 'anmeldung', code: code}, location.origin); } catch (e) {}
+    setTimeout(function () { window.close(); }, 1500);
+  } else {
+    location.replace('{{ url_for("main.start") }}');   // kein Popup: einfach weiter ins Programm
+  }
+})();
+</script>
+</body></html>
