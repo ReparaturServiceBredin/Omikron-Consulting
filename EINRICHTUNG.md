@@ -38,6 +38,30 @@ Daten dauerhaft und lässt sich genauso in SharePoint einbetten.
 
 ---
 
+## Schnellweg: Einrichtungsskript (ersetzt die Schritte 2–4)
+
+Statt alles von Hand zu klicken, richtet ein Skript Web-App, Einstellungen, Microsoft-Anmeldung und die
+automatischen Updates in einem Durchgang ein (ca. 15 Minuten, davon viel Wartezeit):
+
+1. **portal.azure.com** mit einem Konto öffnen, das **Besitzer** des Azure-Abonnements und
+   **Anwendungsadministrator** (oder Globaler Administrator) in Entra ID ist.
+2. Oben rechts das Symbol **>_** (Cloud Shell) anklicken, **Bash** wählen. Beim ersten Mal fragt Azure nach einem
+   Speicher für die Cloud Shell – einfach bestätigen.
+3. Diese zwei Zeilen einfügen (Rechtsklick → Einfügen) und Enter drücken:
+
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/ReparaturServiceBredin/Omikron-Consulting/claude/nice-noether-j6v2s5/verteilung/azure/azure-einrichten.sh -o azure-einrichten.sh
+   bash azure-einrichten.sh
+   ```
+
+4. Fragen beantworten: Name der App, SharePoint-Adresse (Teil vor `.sharepoint.com`), E-Mail-Adressen der Inhaber
+   und ggf. weiterer Personen.
+5. Am Ende zeigt das Skript, was noch von Hand zu tun ist: fünf Werte in GitHub eintragen (für automatische
+   Updates, keine Passwörter) und SharePoint (Abschnitt 5). Warnungen stehen ganz unten.
+
+Das Skript kann bei Problemen einfach erneut gestartet werden. Es verlängert dabei auch das Anmelde-Geheimnis
+der App (gilt jeweils 2 Jahre).
+
 ## 2. Programm in Azure anlegen (App Service)
 
 1. Auf **portal.azure.com** mit dem Administrator-Konto des Kunden anmelden.
