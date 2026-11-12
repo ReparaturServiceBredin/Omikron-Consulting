@@ -130,10 +130,10 @@ ist der Wert `https://omikron.sharepoint.com`. Eine vollständige Liste aller Va
 
 1. Im App Service links **Bereitstellung → Bereitstellungscenter**.
 2. **Quelle:** *GitHub* → **Autorisieren** und mit dem GitHub-Konto anmelden, das Zugriff auf dieses Repository hat.
-3. **Organisation** (Besitzer dieses Repositorys), **Repository:** `Omikron-Consulting`, **Branch:** `main`.
+3. **Organisation** (Besitzer dieses Repositorys), **Repository:** `Omikron-Consulting`, **Branch:** der Standard-Branch des Repositorys (derzeit `claude/nice-noether-j6v2s5`).
 4. **Speichern.** Azure legt dabei selbst einen Ablauf in GitHub an und veröffentlicht das Programm (dauert ca. 5–10
    Minuten; Fortschritt im Reiter **Protokolle**).
-5. Ab jetzt wird jede Änderung auf `main` automatisch veröffentlicht. Ihre Daten bleiben dabei erhalten.
+5. Ab jetzt wird jede Änderung auf diesem Branch automatisch veröffentlicht. Ihre Daten bleiben dabei erhalten.
 
 Kontrolle: `https://IHRE-APP.azurewebsites.net/version` zeigt die Versionsnummer an.
 

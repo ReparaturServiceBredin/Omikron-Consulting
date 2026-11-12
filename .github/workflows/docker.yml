@@ -3,7 +3,7 @@ name: Docker-Image prüfen
 # Baut das Server-Image (Linux) und startet es einmal zur Probe. Veröffentlicht nichts.
 on:
   push:
-    branches: [main]
+    branches: [main, claude/nice-noether-j6v2s5]
     paths:
       - "Dockerfile"
       - "docker-compose.yml"

@@ -15,7 +15,7 @@ Das Programm startet mit einem **leeren Datenbestand**. Firmenname, Logo, Farben
 | [docs/RECHT_UND_GOBD.md](docs/RECHT_UND_GOBD.md) | Pflichtangaben, E-Rechnung, Aufbewahrung, GoBD |
 | [docs/AENDERUNGEN.md](docs/AENDERUNGEN.md) | Versionsprotokoll |
 
-## Zwei Betriebsarten
+## Drei Betriebsarten
 
 1. **Im Browser, von überall (empfohlen für SharePoint):** Betrieb auf **Azure App Service** im Microsoft-365-Konto
    des Kunden, Anmeldung mit dem Microsoft-Konto, eingebettet in eine SharePoint-Seite.
@@ -34,7 +34,7 @@ spätere Änderungen ergänzt `rsb/db.py` automatisch). Alle Zugangsdaten und um
 Umgebungsvariablen, Vorlage mit Erklärungen: [`.env.example`](.env.example).
 
 Neue Version veröffentlichen: `VERSION_NUMMER` in `rsb/__init__.py` erhöhen, Abschnitt in `docs/AENDERUNGEN.md`
-ergänzen und auf `main` übernehmen – GitHub Actions testet, baut die EXE und veröffentlicht sie unter *Releases*.
+ergänzen und auf den Standard-Branch pushen – GitHub Actions testet, baut die EXE und veröffentlicht sie unter *Releases*.
 
 ## Für Entwickler
 

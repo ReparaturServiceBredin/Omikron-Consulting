@@ -2,8 +2,8 @@
 services:
   rsb:
     build: .
-    image: rsb-buchhaltung:latest
-    container_name: rsb-buchhaltung
+    image: buchhaltung:latest
+    container_name: buchhaltung
     restart: unless-stopped
     env_file: .env
     volumes:

@@ -40,6 +40,10 @@ warnung() { gelb "WARNUNG: $*"; WARNUNGEN+=("$*"); }
 
 # ------------------------------------------------------------------------------------------ Angaben
 titel "Angaben"
+# Die Befehle für die Anmeldung („az webapp auth …“ in der neuen Fassung) stecken in der Erweiterung authV2
+az config set extension.use_dynamic_install=yes_without_prompt --only-show-errors 2>/dev/null || true
+az extension add --name authV2 --upgrade --only-show-errors 2>/dev/null \
+  || echo "Hinweis: Erweiterung authV2 konnte nicht vorab installiert werden – Azure fragt ggf. später danach."
 az account show >/dev/null 2>&1 || az login --use-device-code
 ABO_NAME=$(az account show --query name -o tsv); ABO_ID=$(az account show --query id -o tsv)
 TENANT=$(az account show --query tenantId -o tsv)
@@ -153,6 +157,29 @@ for MAIL in $(echo "$INHABER,$MITARBEITER" | tr ',;' '  '); do
     -o none 2>/dev/null && echo "  Zugang freigegeben: $MAIL" || echo "  Zugang bestand bereits: $MAIL"
 done
 gruen "Anmeldung eingerichtet: nur zugewiesene Personen aus Ihrem Microsoft 365 kommen hinein."
+
+# Sicherheitsprobe: Das Programm vertraut den Kopfzeilen X-MS-CLIENT-PRINCIPAL*, die Azure nach der Anmeldung setzt.
+# Azure muss gleichnamige Kopfzeilen entfernen, die ein Browser selbst mitschickt – das wird hier geprüft.
+printf 'Sicherheitsprobe (gefälschte Anmeldung muss abgewiesen werden) '
+ERSTER_INHABER=$(echo "$INHABER" | tr ',;' '  ' | awk '{print $1}')
+PROBE=""
+for _ in $(seq 1 12); do
+  PROBE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
+    -H "X-MS-CLIENT-PRINCIPAL-NAME: $ERSTER_INHABER" -H "X-MS-CLIENT-PRINCIPAL-IDP: aad" \
+    "https://$HOST/einstellungen/firma" || true)
+  [ "$PROBE" != "200" ] && [ "$PROBE" != "000" ] && break   # 302/401/403 = abgewiesen
+  printf '.'; sleep 15                                       # Anmeldung braucht kurz, bis sie aktiv ist
+done
+echo
+if [ "$PROBE" = "200" ]; then
+  rot "ACHTUNG: Eine gefälschte Anmeldung wurde NICHT abgewiesen. Die Web-App wird zur Sicherheit angehalten."
+  az webapp stop -g "$RG" -n "$APP" -o none || true
+  warnung "SICHERHEIT: Web-App angehalten, weil Azure fremde Anmelde-Kopfzeilen durchgelassen hat. Bitte nicht starten, sondern melden."
+elif [ "$PROBE" = "000" ] || [ -z "$PROBE" ]; then
+  warnung "Sicherheitsprobe nicht möglich (Programm nicht erreichbar) – bitte das Skript später erneut ausführen."
+else
+  gruen "Sicherheitsprobe bestanden (Antwort $PROBE)."
+fi
 
 # ------------------------------------------------------------------------------------------ 5. Updates
 titel "5/5 Automatische Updates aus GitHub"
