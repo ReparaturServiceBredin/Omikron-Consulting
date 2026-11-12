@@ -148,7 +148,8 @@ jobs:
   # Mac-App für Apple-Chips (M1 und neuer), gebaut auf einem echten Mac
   mac-app:
     needs: tests
-    runs-on: macos-15
+    runs-on: macos-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -205,9 +206,11 @@ jobs:
             dist/Installation Mac.pdf
 
   # Veröffentlichen (nur bei neuer Versionsnummer): Windows und Mac in einer gemeinsamen Version
+  # Die Mac-App ist optional: Fehlt sie (z. B. kein Mac-Build-Rechner verfügbar), erscheint die Version trotzdem
+  # für Windows; die Mac-Dateien lassen sich später mit „Run workflow“ nachreichen.
   veroeffentlichen:
     needs: [windows-exe, mac-app]
-    if: needs.windows-exe.outputs.neu == 'ja'
+    if: always() && needs.windows-exe.result == 'success' && needs.windows-exe.outputs.neu == 'ja'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -222,9 +225,33 @@ jobs:
           V="${{ needs.windows-exe.outputs.version }}"
           N="${{ needs.windows-exe.outputs.name }}"
           python bauen/release_notes.py "$V"
-          gh release create "v$V" "dist/$N.exe" "dist/$N.exe.sha256" "dist/$N-SharePoint.zip" \
-            "dist/$N-macOS.zip" "dist/$N-macOS.zip.sha256" "dist/Installation Mac.pdf" \
+          dateien=("dist/$N.exe" "dist/$N.exe.sha256" "dist/$N-SharePoint.zip")
+          if [ -f "dist/$N-macOS.zip" ]; then
+            dateien+=("dist/$N-macOS.zip" "dist/$N-macOS.zip.sha256" "dist/Installation Mac.pdf")
+          else
+            echo "::warning::Mac-App fehlt in dieser Version (Mac-Build nicht erfolgreich)."
+          fi
+          gh release create "v$V" "${dateien[@]}" \
             --title "Version $V" --notes-file release_notes.md --target "${{ github.sha }}" --latest
+
+  # Mac-App zu einer bereits veröffentlichten Version nachreichen (z. B. wenn der Mac-Build vorher nicht lief)
+  mac-nachreichen:
+    needs: [windows-exe, mac-app]
+    if: always() && needs.mac-app.result == 'success' && needs.windows-exe.outputs.neu != 'ja'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: mac
+          path: dist
+      - name: An die aktuelle Version anhängen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V="${{ needs.windows-exe.outputs.version }}"
+          N="${{ needs.windows-exe.outputs.name }}"
+          gh release upload "v$V" "dist/$N-macOS.zip" "dist/$N-macOS.zip.sha256" "dist/Installation Mac.pdf" \
+            --clobber --repo "${{ github.repository }}"
 
   # Browser-Version in Azure aktualisieren – nur wenn eingerichtet (Repository-Variablen aus
   # verteilung/azure/azure-einrichten.sh) und bei einer neuen Versionsnummer bzw. manuellem Start.
