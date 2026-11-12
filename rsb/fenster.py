@@ -9,6 +9,7 @@ from . import marke
 import os
 import shutil
 import subprocess
+import sys
 import webbrowser
 from pathlib import Path
 
@@ -44,6 +45,8 @@ def ordner_oeffnen(pfad):
     try:
         if os.name == "nt":
             os.startfile(pfad)  # noqa: S606 – öffnet den Explorer
+        elif sys.platform == "darwin":
+            subprocess.Popen(["open", str(pfad)])  # Finder
         else:
             subprocess.Popen(["xdg-open", str(pfad)])
     except OSError:

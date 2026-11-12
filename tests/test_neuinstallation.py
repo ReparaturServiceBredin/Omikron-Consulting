@@ -192,3 +192,28 @@ def test_sqlite_journal_einstellbar(tmp_path, monkeypatch):
         assert con.execute("PRAGMA journal_mode").fetchone()[0] == "delete"
     finally:
         con.close()
+
+
+# ---------------------------------------------------------------------- Mac-App
+
+def test_mac_app_kein_selbstaustausch_und_eigener_datenordner(tmp_path, monkeypatch):
+    import sys
+    from rsb import update
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "platform", "darwin")
+    assert update.ist_mac_app() and not update.ist_exe()  # Mac: nur Hinweis, kein Austausch der Windows-EXE
+    assert update.download_seite().endswith("/releases/latest")
+    monkeypatch.setattr(datenort.os, "name", "posix")
+    monkeypatch.setattr(datenort.Path, "home", classmethod(lambda cls: tmp_path))
+    assert datenort.fester_ort() == tmp_path / "Library" / "Application Support" / marke.kurzname() / "Daten"
+    monkeypatch.setattr(sys, "platform", "win32")
+    assert update.ist_exe() and not update.ist_mac_app()
+
+
+def test_mac_hinweis_in_den_einstellungen(tmp_path, monkeypatch):
+    import sys
+    app = create_app(tmp_path / "Daten", testing=True)
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "platform", "darwin")
+    seite = app.test_client().get("/einstellungen/programm").get_data(as_text=True)
+    assert "Mac-Version:" in seite and "/releases/latest" in seite and "Jetzt aktualisieren" not in seite

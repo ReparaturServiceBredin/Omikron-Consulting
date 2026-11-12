@@ -16,7 +16,7 @@ WERTE = {
     "RSB_MODUS": "desktop (Standard, Windows mit Fenster) oder server (Linux/Docker, nur Browser-Zugriff)",
     "RSB_DATEN": "Datenordner (Server/Docker z. B. /daten)",
     "RSB_HOST": "Netzwerkadresse, auf der das Programm lauscht (Server: 0.0.0.0)",
-    "RSB_PORT": "Port (Standard 5000)",
+    "RSB_PORT": "Port (Standard 5000, auf dem Mac 5055)",
     "RSB_THREADS": "gleichzeitige Anfragen (Standard 8)",
     "RSB_HINTER_PROXY": "1 = läuft hinter einem Reverse-Proxy (Caddy/nginx) – echte Client-Adresse übernehmen",
     "RSB_SICHERE_COOKIES": "1 = Zugriff nur per HTTPS (Cookies mit Secure-Flag)",

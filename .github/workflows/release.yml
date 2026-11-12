@@ -1,4 +1,4 @@
-name: Windows-EXE bauen und veröffentlichen
+name: Windows-EXE und Mac-App bauen und veröffentlichen
 
 # Läuft bei jeder Änderung am Programm. Eine neue Veröffentlichung (Release) entsteht nur,
 # wenn es zur Versionsnummer in rsb/__init__.py noch keine gibt – sonst wird nur getestet und gebaut.
@@ -9,6 +9,7 @@ on:
       - "rsb/**"
       - "start_exe.py"
       - "buchhaltung.spec"
+      - "buchhaltung-mac.spec"
       - "firma.toml"
       - "requirements.txt"
       - "bauen/**"
@@ -43,6 +44,8 @@ jobs:
     runs-on: windows-latest
     outputs:
       neu: ${{ steps.v.outputs.neu }}
+      name: ${{ steps.v.outputs.name }}
+      version: ${{ steps.v.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -136,29 +139,98 @@ jobs:
       - name: EXE als Artefakt ablegen
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.v.outputs.name }}-${{ steps.v.outputs.version }}
+          name: windows
           path: |
             dist/${{ steps.v.outputs.name }}.exe
             dist/${{ steps.v.outputs.name }}.exe.sha256
             dist/${{ steps.v.outputs.name }}-SharePoint.zip
 
-      - name: Veröffentlichen (nur bei neuer Versionsnummer)
-        if: steps.v.outputs.neu == 'ja'
-        shell: bash
+  # Mac-App für Apple-Chips (M1 und neuer), gebaut auf einem echten Mac
+  mac-app:
+    needs: tests
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Name und Version
+        id: v
+        run: |
+          echo "name=$(python -c "import tomllib; print(tomllib.load(open('firma.toml','rb'))['programm']['kurzname'])")" >> "$GITHUB_OUTPUT"
+          echo "version=$(sed -n 's/^VERSION_NUMMER = "\(.*\)"/\1/p' rsb/__init__.py)" >> "$GITHUB_OUTPUT"
+
+      - name: Abhängigkeiten installieren
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller==6.22.3 pyinstaller-hooks-contrib==2026.8
+
+      - name: App bauen
+        run: |
+          pyinstaller --noconfirm --clean buchhaltung-mac.spec
+          # Ad-hoc-Signatur (Pflicht für Apple-Chips; ersetzt keine Apple-Beglaubigung)
+          codesign --force --deep --sign - "dist/${{ steps.v.outputs.name }}.app"
+          codesign --verify --deep --strict "dist/${{ steps.v.outputs.name }}.app"
+          file "dist/${{ steps.v.outputs.name }}.app/Contents/MacOS/${{ steps.v.outputs.name }}"
+
+      - name: App testen (startet sie und fragt die Version ab)
+        run: |
+          export RSB_DATEN="$RUNNER_TEMP/testdaten" RSB_KEIN_BROWSER=1 RSB_KEIN_UPDATE=1 RSB_KEIN_SYMBOL=1 RSB_PORT=5079
+          "dist/${{ steps.v.outputs.name }}.app/Contents/MacOS/${{ steps.v.outputs.name }}" &
+          PID=$!
+          ok=""
+          for i in $(seq 1 60); do
+            sleep 2
+            if curl -fsS http://127.0.0.1:5079/version | grep -q '"${{ steps.v.outputs.version }}"'; then ok=1; break; fi
+          done
+          seite=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:5079/)
+          kill $PID || true
+          test -n "$ok" && test "$seite" = "200" || { echo "App startet nicht korrekt (Startseite: $seite)"; exit 1; }
+          echo "App läuft: Version ${{ steps.v.outputs.version }}"
+
+      - name: Paket für den Download
+        run: |
+          cd dist
+          ditto -c -k --sequesterRsrc --keepParent "${{ steps.v.outputs.name }}.app" "${{ steps.v.outputs.name }}-macOS.zip"
+          shasum -a 256 "${{ steps.v.outputs.name }}-macOS.zip" > "${{ steps.v.outputs.name }}-macOS.zip.sha256"
+          cp "../verteilung/mac/Installation Mac.pdf" .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac
+          path: |
+            dist/${{ steps.v.outputs.name }}-macOS.zip
+            dist/${{ steps.v.outputs.name }}-macOS.zip.sha256
+            dist/Installation Mac.pdf
+
+  # Veröffentlichen (nur bei neuer Versionsnummer): Windows und Mac in einer gemeinsamen Version
+  veroeffentlichen:
+    needs: [windows-exe, mac-app]
+    if: needs.windows-exe.outputs.neu == 'ja'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Version veröffentlichen
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          V="${{ steps.v.outputs.version }}"
+          V="${{ needs.windows-exe.outputs.version }}"
+          N="${{ needs.windows-exe.outputs.name }}"
           python bauen/release_notes.py "$V"
-          gh release create "v$V" dist/${{ steps.v.outputs.name }}.exe dist/${{ steps.v.outputs.name }}.exe.sha256 \
-            "dist/${{ steps.v.outputs.name }}-SharePoint.zip" \
+          gh release create "v$V" "dist/$N.exe" "dist/$N.exe.sha256" "dist/$N-SharePoint.zip" \
+            "dist/$N-macOS.zip" "dist/$N-macOS.zip.sha256" "dist/Installation Mac.pdf" \
             --title "Version $V" --notes-file release_notes.md --target "${{ github.sha }}" --latest
 
   # Browser-Version in Azure aktualisieren – nur wenn eingerichtet (Repository-Variablen aus
   # verteilung/azure/azure-einrichten.sh) und bei einer neuen Versionsnummer bzw. manuellem Start.
   azure:
-    needs: windows-exe
-    if: vars.AZURE_CLIENT_ID != '' && (needs.windows-exe.outputs.neu == 'ja' || github.event_name == 'workflow_dispatch')
+    needs: [windows-exe, veroeffentlichen]
+    if: always() && needs.windows-exe.result == 'success' && needs.veroeffentlichen.result != 'failure' && vars.AZURE_CLIENT_ID != '' && (needs.windows-exe.outputs.neu == 'ja' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     permissions:
       id-token: write   # Anmeldung bei Azure ohne Passwort (OpenID Connect)

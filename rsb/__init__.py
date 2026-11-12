@@ -10,7 +10,7 @@ from . import navigation
 from .hilfen import EingabeFehler, datum_de, euro, heute, heute_datum, jetzt_dt, kunde_name, menge_text, zeit_de
 from .sicherheit import csrf_pruefen, csrf_token, sitzungs_schluessel
 
-VERSION_NUMMER = "1.1.2"
+VERSION_NUMMER = "1.2.0"
 VERSION = VERSION_NUMMER
 if getattr(sys, "frozen", False):
     # EXE-Version: Programmordner = Ordner der EXE (die Daten liegen am festen Ort, siehe datenort.py)
@@ -274,7 +274,7 @@ def create_app(daten_dir=None, testing=False):
         from . import sichtschutz as sv
         sv_aktiv = sv.aktiv()
         sv_kunde = sv.ausgenommen() if sv_aktiv else None
-        from .update import ist_exe, ist_neuer
+        from .update import download_seite, ist_exe, ist_mac_app, ist_neuer
         update_da = einst.get("update_verfuegbar") if ist_neuer(einst.get("update_verfuegbar"), VERSION_NUMMER) \
             else None
         return {"einst": einst, "offene_anfragen": offene_anfragen, "leihen_ueberfaellig": leihen_ueberfaellig,
@@ -284,7 +284,8 @@ def create_app(daten_dir=None, testing=False):
                 "zaehler": {"offene_anfragen": offene_anfragen, "offene_auftraege": offene_auftraege,
                             "leihen_ueberfaellig": leihen_ueberfaellig, "posten_ueberfaellig": posten_ueberfaellig,
                             "lager_unter_min": lager_unter_min},
-                "update_da": update_da, "ist_exe": ist_exe(), "server_modus": app.config["SERVER_MODUS"],
+                "update_da": update_da, "ist_exe": ist_exe(), "ist_mac": ist_mac_app(),
+                "download_seite": download_seite(), "server_modus": app.config["SERVER_MODUS"],
                 "entra_modus": entra.aktiv(),
                 "sichtschutz": sv_aktiv, "sichtschutz_kunde": sv_kunde,
                 "sichtschutz_daten": {"begriffe": sv.begriffe(con, sv_kunde), "kunde": sv_kunde} if sv_aktiv else None}

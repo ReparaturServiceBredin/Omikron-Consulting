@@ -11,6 +11,7 @@ Ergebnis (wird vom Programm, der EXE und den PDFs benutzt):
   rsb/static/bilder/symbol.png          Symbol neben der Uhr (128 px)
   rsb/static/bilder/favicon.png         Symbol im Browser-Tab (32 px)
   rsb/static/bilder/programm.ico        Symbol der EXE-Datei (16–256 px)
+  rsb/static/bilder/programm.icns       Symbol der Mac-App
 """
 import sys
 from pathlib import Path
@@ -98,6 +99,9 @@ def main():
     zeichen.resize((32, 32), Image.LANCZOS).save(BILDER / "favicon.png")
     zeichen.resize((256, 256), Image.LANCZOS).save(
         BILDER / "programm.ico", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
+    # Mac-App-Symbol (1024 px, Pillow erzeugt daraus alle nötigen Größen)
+    gross = bildmarke(1024, marken_farben) if len(sys.argv) <= 2 else zeichen.resize((1024, 1024), Image.LANCZOS)
+    gross.save(BILDER / "programm.icns")
     print("Logo und Symbole erzeugt in", BILDER)
 
 

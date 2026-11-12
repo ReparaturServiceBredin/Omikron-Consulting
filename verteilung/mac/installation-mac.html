@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<title>Omikron Buchhaltung – Installation auf dem Mac</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm 18mm; }
+  :root { --orange: #EE7023; --text: #1d1d1f; --grau: #5d6670; --rand: #e3e6ea; --hell: #fdf3ec; --rot: #b42318; }
+  body { font-family: -apple-system, "Segoe UI", Arial, sans-serif; color: var(--text); font-size: 10pt; line-height: 1.42; margin: 0; }
+  header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--orange);
+    padding-bottom: 10px; margin-bottom: 14px; }
+  header img { height: 44px; }
+  header .titel { text-align: right; }
+  h1 { font-size: 18pt; margin: 0; }
+  .unter { color: var(--grau); margin: 2px 0 0; }
+  h2 { font-size: 12.5pt; margin: 16px 0 5px; color: var(--orange); break-after: avoid; }
+  ol, ul { padding-left: 20px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 9pt; background: #f3f4f6; padding: 1px 5px; border-radius: 4px; }
+  .link { font-family: Menlo, Consolas, monospace; font-size: 8.6pt; background: #f3f4f6; padding: 6px 8px; border-radius: 6px;
+    display: block; word-break: break-all; margin: 4px 0; }
+  .kasten { background: var(--hell); border-left: 4px solid var(--orange); padding: 9px 12px; margin: 10px 0;
+    border-radius: 0 6px 6px 0; break-inside: avoid; }
+  .kasten.grau { background: #f4f6f8; border-color: #9aa3ad; }
+  .kasten.wichtig { background: #fdecea; border-color: var(--rot); }
+  /* vereinfachte Darstellung der macOS-Meldungen */
+  .dialog { border: 1px solid #c9ced6; border-radius: 12px; margin: 8px 0 10px; max-width: 110mm; break-inside: avoid;
+    box-shadow: 0 3px 10px rgba(0,0,0,.10); padding: 12px 14px; background: #fbfbfd; text-align: center; font-size: 9.2pt; }
+  .dialog b { display: block; font-size: 10pt; margin-bottom: 4px; }
+  .dialog .knoepfe { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+  .dialog .knopf { border: 1px solid #b8bec7; border-radius: 6px; padding: 3px 14px; background: #fff; }
+  .dialog .knopf.hier { border: 2px solid var(--orange); font-weight: 700; }
+  .zeile { display: flex; align-items: center; justify-content: space-between; border: 1px solid #c9ced6; border-radius: 8px;
+    padding: 8px 12px; max-width: 140mm; background: #fbfbfd; font-size: 9.2pt; break-inside: avoid; margin: 6px 0; }
+  .zeile .knopf { border: 2px solid var(--orange); border-radius: 6px; padding: 3px 12px; font-weight: 700; background: #fff; white-space: nowrap; margin-left: 10px; }
+  .pfeil { color: var(--orange); font-weight: 700; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  tr { break-inside: avoid; }
+  td, th { border-bottom: 1px solid var(--rand); padding: 4px 8px; text-align: left; vertical-align: top; }
+  th { background: #f4f6f8; font-weight: 600; }
+</style></head>
+<body>
+<header>
+  <img src="logo.png" alt="Omikron Consulting">
+  <div class="titel"><h1>Installation auf dem Mac</h1><p class="unter">Omikron Buchhaltung · für Macs mit Apple-Chip (M1, M2, M3, M4 …)</p></div>
+</header>
+
+<div class="kasten grau"><b>Passt mein Mac?</b> Apple-Menü (oben links) → <b>Über diesen Mac</b>. Steht dort bei „Chip“
+  <b>Apple M1, M2, M3, M4</b> o. ä., passt die App. Ab macOS 12 (Monterey). Bei einem Mac mit <b>Intel</b>-Prozessor
+  bitte die Browser-Version nutzen – melden Sie sich dafür bei uns.</div>
+
+<h2>1. Herunterladen</h2>
+<ol>
+  <li>Diesen Link in <b>Safari</b> öffnen (oder den Link aus unserer E-Mail anklicken):
+    <span class="link">https://github.com/ReparaturServiceBredin/Omikron-Consulting/releases/latest/download/Omikron-Buchhaltung-macOS.zip</span></li>
+  <li>Safari speichert und entpackt die Datei automatisch im Ordner <b>Downloads</b>. Dort liegt dann die App
+      <b>Omikron-Buchhaltung</b> (Symbol mit drei Waben). Liegt dort nur die ZIP-Datei: einmal doppelklicken.</li>
+</ol>
+
+<h2>2. In den Ordner „Programme“ ziehen</h2>
+<ol>
+  <li>Ein neues Finder-Fenster öffnen und links <b>Programme</b> anklicken.</li>
+  <li>Die App <b>Omikron-Buchhaltung</b> aus <b>Downloads</b> in <b>Programme</b> ziehen.<br>
+      <span class="unter">Bitte nicht aus dem Download-Ordner oder aus iCloud Drive heraus starten.</span></li>
+</ol>
+
+<h2>3. Erster Start (einmalig freigeben)</h2>
+<p>Die App ist nicht über den App Store bzw. eine kostenpflichtige Apple-Beglaubigung verteilt. macOS fragt deshalb beim
+  ersten Start nach – das ist normal und nur einmal nötig.</p>
+<ol>
+  <li>In <b>Programme</b> auf <b>Omikron-Buchhaltung</b> doppelklicken. Es erscheint:
+    <div class="dialog"><b>„Omikron-Buchhaltung“ wurde nicht geöffnet</b>
+      Apple konnte nicht überprüfen, ob „Omikron-Buchhaltung“ frei von Schadsoftware ist …
+      <div class="knoepfe"><span class="knopf hier">Fertig</span><span class="knopf">In den Papierkorb legen</span></div></div>
+    <b>„Fertig“</b> klicken (<b>nicht</b> in den Papierkorb legen).</li>
+  <li>Apple-Menü (oben links) → <b>Systemeinstellungen</b> → links <b>Datenschutz &amp; Sicherheit</b> → ganz nach unten zum
+      Abschnitt <b>Sicherheit</b> scrollen:
+    <div class="zeile"><span>„Omikron-Buchhaltung“ wurde blockiert, um deinen Mac zu schützen.</span><span class="knopf">Dennoch öffnen</span></div>
+    auf <b>„Dennoch öffnen“</b> klicken <span class="pfeil">→</span> mit Passwort bzw. Touch ID bestätigen
+    <span class="pfeil">→</span> in der nächsten Abfrage nochmals <b>„Dennoch öffnen“</b>.</li>
+</ol>
+<p class="unter"><b>macOS 14 (Sonoma) oder älter:</b> Stattdessen in Programme mit <b>Rechtsklick</b> (bzw. ctrl-Klick) auf die App →
+  <b>Öffnen</b> → in der Abfrage nochmals <b>Öffnen</b>.</p>
+
+<h2>4. Arbeiten mit dem Programm</h2>
+<ul>
+  <li>Nach dem Start öffnet sich die Buchhaltung in <b>Safari</b> (Adresse <code>http://localhost:5055</code>). Beim ersten Mal
+      dauert es bis zu 30 Sekunden.</li>
+  <li>Oben rechts in der <b>Menüleiste</b> erscheint das Waben-Symbol. Darüber: <b>Buchhaltung öffnen</b> (z. B. wenn Sie den
+      Safari-Tab geschlossen haben), <b>Daten-Ordner öffnen</b> und <b>Beenden</b>. Ein Symbol im Dock gibt es nicht.</li>
+  <li>Tipp: In Safari <b>Ablage → Zum Dock hinzufügen</b> – dann öffnet ein Klick im Dock die Buchhaltung direkt
+      (das Programm muss dafür laufen).</li>
+  <li>Automatisch mit dem Mac starten: Apple-Menü → <b>Systemeinstellungen → Allgemein → Anmeldeobjekte</b> → unter „Beim Anmelden
+      öffnen“ auf <b>+</b> → Omikron-Buchhaltung wählen.</li>
+  <li>Zuerst unter <b>Einstellungen → Firmendaten</b> Anschrift, Steuernummer und Bankverbindung eintragen.</li>
+</ul>
+
+<h2>5. Daten, Sicherung und Updates</h2>
+<ul>
+  <li>Ihre Daten liegen auf diesem Mac unter <code>~/Library/Application Support/Omikron-Buchhaltung/Daten</code>
+      (am einfachsten: Waben-Symbol → <b>Daten-Ordner öffnen</b>). Jeder Mac/PC hat seinen <b>eigenen</b> Datenbestand.</li>
+  <li>Das Programm sichert täglich selbst. Empfehlung: unter <b>Einstellungen → Backup → Zusätzlicher Backup-Ordner</b> einen
+      Ordner in OneDrive/iCloud Drive eintragen, damit immer eine Kopie außerhalb des Macs liegt.</li>
+  <li><b>Updates:</b> Gibt es eine neue Version, zeigt das Programm oben einen Hinweis mit Link. Dann: Waben-Symbol →
+      <b>Beenden</b>, die neue Version wie in Schritt 1 herunterladen und die App in <b>Programme</b> ersetzen
+      („Ersetzen“ bestätigen). Die Daten bleiben erhalten. Beim ersten Start der neuen Version ggf. Schritt 3 wiederholen.</li>
+</ul>
+
+<h2>6. Wenn etwas nicht klappt</h2>
+<table>
+  <tr><th style="width:38%">Was passiert</th><th>Lösung</th></tr>
+  <tr><td><b>„… ist beschädigt und kann nicht geöffnet werden“</b></td>
+      <td>Programm <b>Terminal</b> öffnen (Programme → Dienstprogramme), diese Zeile einfügen und Enter drücken:<br>
+      <code>xattr -dr com.apple.quarantine /Applications/Omikron-Buchhaltung.app</code><br>Danach die App normal starten.</td></tr>
+  <tr><td><b>„Dennoch öffnen“ ist nicht zu sehen</b></td>
+      <td>Die App zuerst einmal per Doppelklick starten (Schritt 3.1) – der Knopf erscheint erst danach, und nur etwa eine
+      Stunde lang.</td></tr>
+  <tr><td><b>Doppelklick – es passiert nichts</b></td>
+      <td>Bis zu 30 Sekunden warten und oben rechts in der Menüleiste nach dem Waben-Symbol schauen → <b>Buchhaltung öffnen</b>.
+      Bei sehr voller Menüleiste ist das Symbol evtl. verdeckt: in Safari <code>http://localhost:5055</code> eingeben.</td></tr>
+  <tr><td><b>„Diese App wird nicht unterstützt“</b> bzw. „Falsche Architektur“</td>
+      <td>Der Mac hat einen Intel-Prozessor – bitte die Browser-Version nutzen.</td></tr>
+  <tr><td><b>Safari zeigt „Verbindung nicht möglich“</b></td>
+      <td>Einige Sekunden warten und neu laden (⌘ R). Sonst Waben-Symbol → Beenden und die App neu starten.</td></tr>
+  <tr><td><b>Programm entfernen</b></td>
+      <td>Waben-Symbol → Beenden, dann die App aus <b>Programme</b> in den Papierkorb ziehen. Die Daten bleiben im
+      Daten-Ordner erhalten (bei Bedarf separat löschen).</td></tr>
+</table>
+
+<div class="kasten grau"><b>Immer noch Probleme?</b> Bitte schicken Sie uns ein Bildschirmfoto der Meldung
+  (<b>⌘ ⇧ 4</b>, dann Bereich aufziehen – das Bild landet auf dem Schreibtisch) und Ihre macOS-Version
+  (Apple-Menü → Über diesen Mac).</div>
+</body></html>

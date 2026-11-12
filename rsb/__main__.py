@@ -179,8 +179,11 @@ def _backup_vor_update(app, version):
 
 
 def update_hintergrund(app):
-    while True:
+    if update.ist_mac_app():
+        time.sleep(20)  # Mac: gleich nach dem Start einmal prüfen (dort gibt es keine Prüfung beim Start)
+    else:
         time.sleep(UPDATE_INTERVALL_STUNDEN * 3600)
+    while True:
         try:
             info = update_pruefen(app)
             if info and update.ist_neuer(info["version"], VERSION_NUMMER):
@@ -188,6 +191,7 @@ def update_hintergrund(app):
                       "wird beim nächsten Start installiert (oder in der Oberfläche auf „Jetzt aktualisieren“).")
         except Exception as e:
             log.info(f"{jetzt_dt():%H:%M} Update-Prüfung fehlgeschlagen: {e}")
+        time.sleep(UPDATE_INTERVALL_STUNDEN * 3600)
 
 
 def _beenden(app):
@@ -281,7 +285,8 @@ def main():
     daten_db = os.path.join(os.environ["RSB_DATEN"], "buchhaltung.db")
     host = os.environ.get("RSB_HOST") or ("0.0.0.0" if server or (os.path.exists(daten_db) and im_netz(daten_db))
                                           else "127.0.0.1")
-    port = int(os.environ.get("RSB_PORT", "5000"))
+    # macOS belegt Port 5000 (AirPlay-Empfänger) – dort 5055
+    port = int(os.environ.get("RSB_PORT") or ("5055" if sys.platform == "darwin" else "5000"))
     adresse = f"http://{'localhost' if host in ('127.0.0.1', '0.0.0.0') else host}:{port}"
 
     if server and port_belegt(host, port):
@@ -320,7 +325,7 @@ def main():
     log.info(f" Protokolldatei: {log_datei}" + (" · Server-Modus" if server else ""))
     log.info("=" * 60)
     sperre = hintergrund_starten(app)
-    if update.ist_exe() and not os.environ.get("RSB_KEIN_UPDATE"):
+    if (update.ist_exe() or update.ist_mac_app()) and not os.environ.get("RSB_KEIN_UPDATE"):
         threading.Thread(target=update_hintergrund, args=(app,), daemon=True).start()
 
     if server:

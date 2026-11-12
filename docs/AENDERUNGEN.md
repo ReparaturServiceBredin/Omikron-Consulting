@@ -13,12 +13,24 @@ Alle Versionen mit Neuerungen, Änderungen und Fehlerbehebungen. Die neueste Ver
 
 | Version | Datum | Schwerpunkt |
 |---|---|---|
+| 1.2.0 | 12.11.2026 | Mac-App für Apple-Chips, Installationshilfen |
 | 1.1.2 | 04.11.2026 | Installationspaket für SharePoint |
 | 1.1.1 | 04.11.2026 | Finanzen: Einnahmen nach Leistungsart, nur berechnete Leistungen |
 | 1.1.0 | 04.11.2026 | Oberfläche anpassen: Bausteine, Spalten, eigene Einträge in Auswahllisten |
 | 1.0.0 | 04.11.2026 | Erste eigene Version für Omikron Consulting |
 
 ---
+
+## 1.2.0 – 12.11.2026
+### Neu
+- **Mac-App** für Macs mit Apple-Chip (M1 und neuer, ab macOS 12): `Omikron-Buchhaltung-macOS.zip` bei jeder
+  Veröffentlichung, dazu die Anleitung „Installation Mac.pdf“. Bedienung über das Waben-Symbol in der Menüleiste,
+  die Oberfläche öffnet sich in Safari. Daten unter `~/Library/Application Support/Omikron-Buchhaltung/Daten`.
+- Die Mac-App erkennt neue Versionen und zeigt einen Hinweis mit Download-Link (kein automatischer Austausch).
+- **Installationshilfe Windows** (PDF) mit Hilfe nach Fehlerbild, auch im SharePoint-Paket.
+
+### Technik
+- Auf dem Mac nutzt das Programm Port 5055, da macOS Port 5000 für AirPlay belegt.
 
 ## 1.1.2 – 04.11.2026
 ### Neu

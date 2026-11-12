@@ -23,6 +23,8 @@ Das Programm startet mit einem **leeren Datenbestand**. Firmenname, Logo, Farben
 2. **Lokal unter Windows:** `Omikron-Buchhaltung.exe` aus *Releases* herunterladen, in einen eigenen Ordner legen
    (z. B. `C:\Omikron-Buchhaltung`, nicht in OneDrive) und starten. Die Daten liegen dann unter
    `%LOCALAPPDATA%\Omikron-Buchhaltung\Daten`.
+3. **Lokal auf dem Mac (Apple-Chip):** `Omikron-Buchhaltung-macOS.zip` aus *Releases* herunterladen, App nach
+   *Programme* ziehen, Anleitung: [verteilung/mac/Installation Mac.pdf](verteilung/mac/Installation%20Mac.pdf).
 
 ## Technik (kurz)
 

@@ -396,7 +396,12 @@
 {% elif bereich == 'programm' %}
 <div class="karte">
   <h2>Version {{ version }}</h2>
-  {% if not ist_exe %}
+  {% if ist_mac %}
+    <div class="meldung info"><b>Mac-Version:</b> Neue Versionen erkennt das Programm selbst, installiert sie aber nicht
+      automatisch. Zum Aktualisieren die neue Version herunterladen{% if download_seite %}
+      (<a href="{{ download_seite }}" target="_blank" rel="noopener">Download-Seite</a>){% endif %}, das Programm
+      beenden (Symbol in der Menüleiste → Beenden) und die App im Ordner „Programme“ ersetzen. Ihre Daten bleiben erhalten.</div>
+  {% elif not ist_exe %}
     <div class="meldung info">Sie nutzen die Installation per <code>start.bat</code>. Automatische Updates gibt es nur in der
       EXE-Version (<b>{{ exe_name }}</b>, siehe Anleitung). Die EXE benutzt denselben festen Datenordner – Ihre
       Daten sind dort sofort da.</div>

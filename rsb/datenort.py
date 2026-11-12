@@ -4,7 +4,8 @@ Bis Version 0.22 lag der Ordner „Daten“ neben der EXE bzw. dem Programmordne
 Stelle gestartet (Downloads, Desktop, start.bat), entstand dort ein zweiter, leerer Datenbestand. Jetzt gilt:
 
 - Windows: %LOCALAPPDATA%\\<Kurzname aus firma.toml>\\Daten   (wird nicht von OneDrive synchronisiert)
-- Linux/macOS: $XDG_DATA_HOME bzw. ~/.local/share/<Kurzname>/Daten
+- macOS: ~/Library/Application Support/<Kurzname>/Daten
+- Linux: $XDG_DATA_HOME bzw. ~/.local/share/<Kurzname>/Daten
 - Umgebungsvariable RSB_DATEN überschreibt das (z. B. für Docker oder Tests).
 
 Beim ersten Start mit dem festen Ort werden die bisherigen Datenordner gesucht (neben dem Programm, Desktop, Downloads,
@@ -28,6 +29,8 @@ NOTIZ = "UMGEZOGEN – bitte nicht mehr verwenden.txt"
 def fester_ort():
     if os.name == "nt":
         basis = Path(os.environ.get("LOCALAPPDATA") or Path.home() / "AppData" / "Local")
+    elif sys.platform == "darwin":
+        basis = Path.home() / "Library" / "Application Support"
     else:
         basis = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share")
     from . import marke

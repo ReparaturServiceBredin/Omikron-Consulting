@@ -35,8 +35,18 @@ class UpdateFehler(Exception):
 
 
 def ist_exe():
-    """True, wenn das Programm als gebaute EXE (PyInstaller) läuft."""
-    return bool(getattr(sys, "frozen", False))
+    """True, wenn das Programm als gebaute Windows-EXE (PyInstaller) läuft – nur dann tauscht es sich selbst aus."""
+    return bool(getattr(sys, "frozen", False)) and sys.platform != "darwin"
+
+
+def ist_mac_app():
+    """True für die gebaute Mac-App: sie prüft auf neue Versionen, installiert sie aber nicht selbst."""
+    return bool(getattr(sys, "frozen", False)) and sys.platform == "darwin"
+
+
+def download_seite():
+    """Seite mit der neuesten Version (für die Mac-App: dort die neue Version herunterladen)."""
+    return f"https://github.com/{REPO}/releases/latest" if REPO else ""
 
 
 def versions_tupel(text):
