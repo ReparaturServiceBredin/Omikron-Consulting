@@ -211,6 +211,8 @@ jobs:
   veroeffentlichen:
     needs: [windows-exe, mac-app]
     if: always() && needs.windows-exe.result == 'success' && needs.windows-exe.outputs.neu == 'ja'
+    permissions:
+      contents: write   # Version (Release) anlegen bzw. Dateien anhängen
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -238,6 +240,8 @@ jobs:
   mac-nachreichen:
     needs: [windows-exe, mac-app]
     if: always() && needs.mac-app.result == 'success' && needs.windows-exe.result == 'success' && needs.windows-exe.outputs.neu == 'nein'
+    permissions:
+      contents: write   # Version (Release) anlegen bzw. Dateien anhängen
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
