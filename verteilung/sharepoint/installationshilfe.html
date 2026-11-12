@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<title>Omikron Buchhaltung – Installation unter Windows</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm 18mm; }
+  :root { --orange: #EE7023; --text: #1d1d1f; --grau: #5d6670; --rand: #e3e6ea; --hell: #fdf3ec; --rot: #b42318; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: var(--text); font-size: 10pt; line-height: 1.42; margin: 0; }
+  header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--orange);
+    padding-bottom: 10px; margin-bottom: 16px; }
+  header img { height: 44px; }
+  header .titel { text-align: right; }
+  h1 { font-size: 18pt; margin: 0; }
+  .unter { color: var(--grau); margin: 2px 0 0; }
+  h2 { font-size: 12.5pt; margin: 16px 0 5px; color: var(--orange); break-after: avoid; }
+  h3 { font-size: 11pt; margin: 14px 0 4px; break-after: avoid; }
+  ol, ul { padding-left: 20px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 9.5pt; background: #f3f4f6; padding: 1px 5px; border-radius: 4px; }
+  .kasten { background: var(--hell); border-left: 4px solid var(--orange); padding: 9px 12px; margin: 10px 0;
+    border-radius: 0 6px 6px 0; break-inside: avoid; }
+  .kasten.wichtig { background: #fdecea; border-color: var(--rot); }
+  .kasten.grau { background: #f4f6f8; border-color: #9aa3ad; }
+  /* vereinfachte Darstellung der Windows-Meldung */
+  .dialog { border: 1px solid #c9ced6; border-radius: 6px; margin: 8px 0 10px; max-width: 135mm; break-inside: avoid;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08); overflow: hidden; }
+  .dialog .kopf { background: #0b5cad; color: #fff; padding: 8px 12px; font-weight: 600; font-size: 12pt; }
+  .dialog .inhalt { padding: 8px 12px; font-size: 9.5pt; }
+  .dialog .knoepfe { padding: 0 12px 10px; display: flex; gap: 8px; justify-content: flex-end; }
+  .dialog .knopf { border: 1px solid #9aa3ad; border-radius: 3px; padding: 3px 14px; font-size: 9.5pt; background: #fff; }
+  .dialog .knopf.hier { border: 2px solid var(--orange); font-weight: 700; }
+  .dialog .link { color: #fff; text-decoration: underline; font-weight: 400; font-size: 9.5pt; display: block; margin-top: 4px; }
+  .dialog .link.hier { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .pfeil { color: var(--orange); font-weight: 700; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  tr { break-inside: avoid; }
+  td, th { border-bottom: 1px solid var(--rand); padding: 4px 8px; break-inside: avoid; text-align: left; vertical-align: top; }
+  th { background: #f4f6f8; font-weight: 600; }
+  .seitenumbruch { break-before: page; }
+  footer { margin-top: 22px; color: var(--grau); font-size: 9pt; border-top: 1px solid var(--rand); padding-top: 8px; }
+</style></head>
+<body>
+<header>
+  <img src="logo.png" alt="Omikron Consulting">
+  <div class="titel"><h1>Installation unter Windows</h1><p class="unter">Omikron Buchhaltung · Schritt für Schritt und Hilfe bei Problemen</p></div>
+</header>
+
+<div class="kasten wichtig"><b>Zuerst prüfen: Arbeiten Sie an einem Mac (Apple)?</b><br>
+  Die Datei <code>Omikron-Buchhaltung.exe</code> ist ein <b>Windows-Programm</b> und lässt sich auf einem Mac, iPad oder
+  iPhone grundsätzlich nicht öffnen. Für Apple-Geräte gibt es die <b>Browser-Version</b> (läuft in Safari, Chrome oder Edge,
+  ohne Installation) – bitte melden Sie sich dafür kurz bei uns.</div>
+
+<h2>1. Programm speichern</h2>
+<ol>
+  <li>Legen Sie einen eigenen Ordner an, z. B. <code>C:\Omikron-Buchhaltung</code>
+      (Explorer öffnen → <b>Dieser PC</b> → <b>Lokaler Datenträger (C:)</b> → Rechtsklick → <b>Neu → Ordner</b>).<br>
+      <span class="unter">Bitte <b>nicht</b> unter „Programme“, nicht in OneDrive/SharePoint und nicht auf dem Desktop eines
+      OneDrive-Kontos – das Programm muss dort seine Updates speichern dürfen.</span></li>
+  <li>Kam die Datei per E-Mail: Anhang mit Rechtsklick → <b>Speichern unter …</b> in diesen Ordner speichern.
+      <b>Nicht</b> direkt aus der E-Mail-Vorschau starten.</li>
+  <li>Kam eine <b>ZIP-Datei</b>: Rechtsklick → <b>Alle extrahieren …</b> → Zielordner wählen. Aus der ZIP-Datei heraus
+      startet das Programm nicht.</li>
+</ol>
+
+<h2>2. Freigeben (einmalig)</h2>
+<p>Windows markiert Dateien aus dem Internet oder aus E-Mails. Damit es beim Start keine Probleme gibt:</p>
+<ol>
+  <li>Rechtsklick auf <code>Omikron-Buchhaltung.exe</code> → <b>Eigenschaften</b>.</li>
+  <li>Unten bei <b>Sicherheit</b> den Haken <b>„Zulassen“</b> setzen (falls vorhanden) → <b>OK</b>.</li>
+</ol>
+
+<h2>3. Starten</h2>
+<ol>
+  <li><b>Doppelklick</b> auf <code>Omikron-Buchhaltung.exe</code>.</li>
+  <li>Erscheint die blaue Meldung <b>„Der Computer wurde durch Windows geschützt“</b>:
+      <div class="dialog">
+        <div class="kopf">Der Computer wurde durch Windows geschützt
+          <span class="link hier">Weitere Informationen</span></div>
+        <div class="inhalt">Von Microsoft Defender SmartScreen wurde der Start einer unbekannten App verhindert …<br>
+          App: Omikron-Buchhaltung.exe · Herausgeber: Unbekannter Herausgeber</div>
+        <div class="knoepfe"><span class="knopf hier">Trotzdem ausführen</span><span class="knopf">Nicht ausführen</span></div>
+      </div>
+      zuerst auf <b>„Weitere Informationen“</b> klicken <span class="pfeil">→</span> dann erscheint der Knopf
+      <b>„Trotzdem ausführen“</b> <span class="pfeil">→</span> anklicken.<br>
+      <span class="unter">Diese Warnung erscheint, weil das Programm nicht mit einem kostenpflichtigen Zertifikat signiert ist.
+      Sie kommt nur beim ersten Start.</span></li>
+  <li><b>Bitte bis zu 30 Sekunden warten.</b> Beim ersten Start entpackt sich das Programm – in dieser Zeit ist nichts zu
+      sehen. Bitte nicht mehrfach doppelklicken.</li>
+  <li>Die Buchhaltung öffnet sich als eigenes Fenster. Unten rechts neben der Uhr (ggf. unter dem Pfeil <b>^</b>) erscheint
+      das Symbol mit den drei Waben – darüber öffnen und beenden Sie das Programm.</li>
+  <li>Tipp: Rechtsklick auf die EXE → <b>Weitere Optionen anzeigen</b> → <b>Senden an → Desktop (Verknüpfung erstellen)</b>.</li>
+</ol>
+
+<h2>4. Es klappt nicht? – Hilfe nach Fehlerbild</h2>
+<table>
+  <tr><th style="width:38%">Was passiert</th><th>Lösung</th></tr>
+  <tr><td><b>Datei lässt sich nicht öffnen / Windows fragt „Wie möchten Sie diese Datei öffnen?“</b></td>
+      <td>Sie arbeiten vermutlich an einem <b>Mac</b> oder die Datei hat keine Endung <code>.exe</code> mehr (manche
+      E-Mail-Programme benennen sie um). Am Mac: Browser-Version nutzen (siehe oben). Unter Windows: Datei neu anfordern
+      bzw. aus dem SharePoint-Ordner nehmen.</td></tr>
+  <tr><td><b>E-Mail-Anhang fehlt oder ist gesperrt</b> („potenziell unsichere Anlage blockiert“)</td>
+      <td>Outlook und viele Firmen-Postfächer sperren <code>.exe</code>-Dateien. Bitte die Datei stattdessen aus dem
+      SharePoint-Ordner oder über den Download-Link holen, den Sie von uns erhalten.</td></tr>
+  <tr><td><b>Blaue Meldung „Der Computer wurde durch Windows geschützt“</b>, nur Knopf „Nicht ausführen“</td>
+      <td>Auf den kleinen Text <b>„Weitere Informationen“</b> klicken – erst dann erscheint „Trotzdem ausführen“.</td></tr>
+  <tr><td><b>„Smart App Control hat eine App blockiert …“</b> (ohne Knopf zum Ausführen)</td>
+      <td>Windows 11 mit eingeschalteter <b>intelligenter App-Steuerung</b> lässt nur signierte Programme zu. Prüfen:
+      Start → <b>Windows-Sicherheit</b> → <b>App- &amp; Browsersteuerung</b> → <b>Einstellungen für intelligente
+      App-Steuerung</b>. Steht sie auf „Ein“, bitte <b>nicht</b> selbst ausschalten, sondern bei uns melden – wir stellen
+      Ihnen dann die Browser-Version bzw. eine signierte Fassung bereit.</td></tr>
+  <tr><td><b>„Diese App wurde von Ihrem Systemadministrator blockiert“</b> bzw. „Ihre Organisation hat … blockiert“</td>
+      <td>Firmen-PCs mit zentraler Verwaltung (z. B. Microsoft Intune) erlauben keine eigenen Programme. Ihre IT muss
+      <code>Omikron-Buchhaltung.exe</code> freigeben – oder Sie nutzen die Browser-Version.</td></tr>
+  <tr><td><b>Datei ist plötzlich verschwunden</b> oder „Virus oder potenziell unerwünschte Software erkannt“</td>
+      <td>Der Virenschutz hat die Datei vorsorglich in Quarantäne verschoben. Windows-Sicherheit →
+      <b>Viren- &amp; Bedrohungsschutz</b> → <b>Schutzverlauf</b> → Eintrag öffnen → <b>Aktionen → Zulassen</b>.
+      Bei anderen Virenschutz-Programmen (z. B. Avast, ESET, Norton) dort eine <b>Ausnahme</b> für die Datei bzw. den
+      Ordner anlegen. Danach die Datei erneut speichern.</td></tr>
+  <tr><td><b>Doppelklick – es passiert nichts</b></td>
+      <td>30 Sekunden warten und unten rechts neben der Uhr (Pfeil <b>^</b>) nach dem Waben-Symbol schauen – ein Klick
+      darauf öffnet das Fenster. Läuft das Programm schon, öffnet ein weiterer Doppelklick nur das Fenster erneut.
+      Sonst: Schritt 2 (Freigeben) prüfen und den PC einmal neu starten.</td></tr>
+  <tr><td><b>„Windows kann nicht auf das angegebene Gerät, den Pfad oder die Datei zugreifen“</b></td>
+      <td>Die Datei liegt noch in der ZIP-Datei, in der E-Mail oder in einem gesperrten Ordner. Wie in Schritt 1 in einen
+      eigenen Ordner auf <code>C:\</code> speichern bzw. entpacken.</td></tr>
+  <tr><td><b>Fenster öffnet sich, bleibt aber leer</b> oder „Seite nicht erreichbar“</td>
+      <td>Einige Sekunden warten und mit <b>F5</b> neu laden. Hilft das nicht: Programm über das Waben-Symbol →
+      <b>Beenden</b> schließen und neu starten.</td></tr>
+</table>
+
+<div class="kasten grau"><b>Immer noch Probleme?</b> Schicken Sie uns ein Foto oder einen Screenshot der Meldung
+  (<b>Windows + Umschalt + S</b>) und ob Sie Windows 10 oder 11 nutzen (Start → Einstellungen → System → Info).
+  Ihre Daten liegen übrigens getrennt vom Programm unter <code>%LOCALAPPDATA%\Omikron-Buchhaltung\Daten</code> und
+  bleiben bei Updates erhalten.</div>
+</body></html>

@@ -129,7 +129,8 @@ jobs:
           New-Item -ItemType Directory -Force $paket | Out-Null
           Copy-Item verteilung\sharepoint\Installieren.cmd, verteilung\sharepoint\Deinstallieren.cmd, `
             verteilung\sharepoint\installieren.ps1, verteilung\sharepoint\deinstallieren.ps1, `
-            verteilung\sharepoint\Anleitung.pdf, "dist\${{ steps.v.outputs.name }}.exe" $paket
+            verteilung\sharepoint\Anleitung.pdf, "verteilung\sharepoint\Installationshilfe Windows.pdf", `
+            "dist\${{ steps.v.outputs.name }}.exe" $paket
           Compress-Archive -Path $paket -DestinationPath "dist\${{ steps.v.outputs.name }}-SharePoint.zip" -Force
 
       - name: EXE als Artefakt ablegen
