@@ -237,7 +237,7 @@ jobs:
   # Mac-App zu einer bereits veröffentlichten Version nachreichen (z. B. wenn der Mac-Build vorher nicht lief)
   mac-nachreichen:
     needs: [windows-exe, mac-app]
-    if: always() && needs.mac-app.result == 'success' && needs.windows-exe.outputs.neu != 'ja'
+    if: always() && needs.mac-app.result == 'success' && needs.windows-exe.result == 'success' && needs.windows-exe.outputs.neu == 'nein'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
